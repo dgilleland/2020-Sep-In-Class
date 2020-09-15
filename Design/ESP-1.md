@@ -23,6 +23,21 @@ This legend is a guide to reading and interpreting the table listings under 0NF 
 
 > ***Your solution here***
 
+
+## Customer Details View
+
+### 0NF
+
+**Customer:** <span class="md"><b class="pk">CustomerNumber</b>, FirstName, LastName, Address, City, Province, PostalCode, HomePhone</span>
+
+### 1NF-3NF
+
+*No changes to the entity/table in 1NF to 3NF.*
+
+### ERD
+
+- [ ] TODO: Insert Image Here
+
 ----
 
 <style>

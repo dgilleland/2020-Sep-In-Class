@@ -25,8 +25,9 @@ namespace WestWindConsole.Entities
         [Required, StringLength(20, ErrorMessage = "Quantity per Unit is restricted to 20 characters in length")]
         public string QuantityPerUnit { get; set; }
 
-        [Range(0, double.MaxValue)]
-        public decimal UnitPrice { get; set; }
+        [Range(0, double.MaxValue)] // Validation for a min/max value
+        // [Required] is not applicable for a decimal
+        public decimal UnitPrice { get; set; } // the non-string datatypes in C# cannot hold NULL
 
         [Range(0, int.MaxValue)]
         public int UnitsOnOrder { get; set; }
@@ -34,6 +35,8 @@ namespace WestWindConsole.Entities
         public bool Discontinued { get; set; }
 
         // TODO: Introducing Navigation Properties
+        // Each Product falls under only one Category
+        // virtual to allow for Lazy Loading
         public virtual Category Category { get; set; }
     }
 }

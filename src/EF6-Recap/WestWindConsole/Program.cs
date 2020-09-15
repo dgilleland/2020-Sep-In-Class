@@ -10,9 +10,9 @@ namespace WestWindConsole
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) // The Main method is the only static method in this class
         {
-            var app = new Program();
+            var app = new Program(); // I'm using an instance of the Program class
             app.CheckTables();
         }
 

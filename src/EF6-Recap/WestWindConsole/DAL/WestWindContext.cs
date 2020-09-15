@@ -8,12 +8,16 @@ using WestWindConsole.Entities;
 
 namespace WestWindConsole.DAL
 {
+    // Our context class acts as a virtual database in our application; it's the connection point
+    // between our application's entities and the database
     public class WestWindContext : DbContext
     {
-        public WestWindContext() : base("name=WWdb")
+        public WestWindContext() : base("name=WWdb") // WWdb is the name of the connection info
         {
-            // TODO: Demonstrate null database initializer
-            Database.SetInitializer<WestWindContext>(null);
+            // by defaul, DbContext will use an initializer that will create the database
+            // if it doesn't exist.
+            // TODO: Demonstrate null database initializer PROGRAMMATICALLY
+            Database.SetInitializer<WestWindContext>(null); // turn off database initialization
         }
 
         public DbSet<Product> Products { get; set; }

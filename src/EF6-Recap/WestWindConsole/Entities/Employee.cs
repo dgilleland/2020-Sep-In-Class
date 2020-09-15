@@ -32,7 +32,7 @@ namespace WestWindConsole.Entities
         #region Not-Mapped Properties
         // TODO: Demonstrate [NotMapped]
         // NotMapped properties are properties that exist on the Entity, but NOT in the Database
-        [NotMapped]
+        [NotMapped] // tells EF not to expect a column named FullName in the database table
         public string FullName
         { get { return FirstName + " " + LastName; } }
         #endregion

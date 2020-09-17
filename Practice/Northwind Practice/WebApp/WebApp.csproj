@@ -501,6 +501,16 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NorthwindTraders.DataStore\NorthwindTraders.DataStore.csproj">
+      <Project>{0531a4c7-e3c3-40d7-8cfb-6a63eeeaa1c5}</Project>
+      <Name>NorthwindTraders.DataStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NorthwindTraders\NorthwindTraders.csproj">
+      <Project>{bb803119-da05-400d-ba92-ff4f4549247e}</Project>
+      <Name>NorthwindTraders</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

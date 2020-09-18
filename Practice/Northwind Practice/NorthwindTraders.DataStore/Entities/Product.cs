@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NorthwindTraders.DataStore
+namespace NorthwindTraders.DataStore.Entities
 {
     [Table("Products")]
     public class Product
@@ -24,7 +24,7 @@ namespace NorthwindTraders.DataStore
         public decimal? UnitPrice { get; set; }
         public short? UnitsInStock { get; set; }
         public short? UnitsOnOrder { get; set; }
-        public short? Reorderlevel { get; set; }
+        public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
         public DateTime LastModified { get; set; }
 

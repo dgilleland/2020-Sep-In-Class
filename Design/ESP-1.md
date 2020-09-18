@@ -35,6 +35,47 @@ This legend is a guide to reading and interpreting the table listings under 0NF 
 
 > TODO: Create ERD Image
 
+----
+
+## Customer Orders View
+
+### 0NF - Identifying the Meta-Data
+
+**Order:** <span class="md"><b class="pk">OrderNumber</b>, CustomerNumber, FirstName, LastName, Address, City, Province, PostalCode, Phone, Date, <b class="rg">ItemNumber, Description, Quantity, CurrentPrice, SellingPrice, Amount</b>, Subtotal, GST, Total</span>
+
+### 1NF - Separate Repeating Groups
+
+**Order:** <span class="md"><b class="pk">OrderNumber</b>, CustomerNumber, FirstName, LastName, Address, City, Province, PostalCode, Phone, Date, Subtotal, GST, Total</span>
+
+**OrderDetail:** <span class="md"><b class="pk"><u class="fk">OrderNumber</u>, ItemNumber</b>, Description, Quantity, CurrentPrice, SellingPrice, Amount</span>
+
+### 2NF - Separate Partial Dependencies
+
+**OrderDetail:** <span class="md"><b class="pk"><u class="fk">OrderNumber</u>, <u class="fk">ItemNumber</u></b>, Quantity, SellingPrice, Amount</span>
+
+**Item:** <span class="md"><b class="pk">ItemNumber</b>, Description, CurrentPrice</span>
+
+### 3NF - Separate Transitive Dependencies
+
+**Order:** <span class="md"><b class="pk">OrderNumber</b>, <u class="fk">CustomerNumber</u>, Date, Subtotal, GST, Total</span>
+
+**Customer:** <span class="md"><b class="pk">CustomerNumber</b>, FirstName, LastName, Address, City, Province, PostalCode, Phone</span>
+
+### Final Set of Entities
+
+**Order:** <span class="md"><b class="pk">OrderNumber</b>, <u class="fk">CustomerNumber</u>, Date, Subtotal, GST, Total</span>
+
+**Customer:** <span class="md"><b class="pk">CustomerNumber</b>, FirstName, LastName, Address, City, Province, PostalCode, Phone</span>
+
+**OrderDetail:** <span class="md"><b class="pk"><u class="fk">OrderNumber</u>, <u class="fk">ItemNumber</u></b>, Quantity, SellingPrice, Amount</span>
+
+**Item:** <span class="md"><b class="pk">ItemNumber</b>, Description, CurrentPrice</span>
+
+
+
+### ERD
+
+> TODO: ERD Image Here
 
 ----
 

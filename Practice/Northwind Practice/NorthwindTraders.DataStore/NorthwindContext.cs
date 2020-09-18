@@ -1,5 +1,4 @@
 ﻿using NorthwindTraders.DataStore.Entities;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,9 +13,18 @@ namespace NorthwindTraders.DataStore
         { }
 
         #region "Virtual" Tables
-        public DbSet<Product> Products { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
-        // TODO: Add remaining tables for each entity in this class library
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Region> Regions { get; set; }
+        public virtual DbSet<Shipper> Shippers { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<Territory> Territories { get; set; }
+        public virtual DbSet<Version> Versions { get; set; }
+        public virtual DbSet<VersionDDLEventLog> VersionDDLEventLogs { get; set; }
         #endregion
     }
 }

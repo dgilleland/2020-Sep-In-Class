@@ -11,8 +11,10 @@
                     <div class="form-inline">
                         <asp:Label ID="Label1" runat="server" CssClass="control-label"
                             Text="Products" AssociatedControlID="CurrentProducts" />
+                        &nbsp;
                         <asp:DropDownList ID="CurrentProducts" runat="server" CssClass="form-control">
                         </asp:DropDownList>
+                        &nbsp;
                         <asp:LinkButton ID="ShowProductDetails" runat="server" CausesValidation="false"
                             CssClass="btn btn-primary" OnClick="ShowProductDetails_Click">
                             Show Product Details <i class="glyphicon glyphicon-search"></i>

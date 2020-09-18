@@ -51,6 +51,11 @@
                 <div id="navbarCollapse" class="navbar-collapse collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
+                        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">CRUD Samples</a>
+                        <div class="dropdown-menu">
+                            <a runat="server" class="dropdown-item" href="~/CRUDReview/ManageProducts.aspx">Manage Products</a>
+                        </div>
+                    </li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
                     </ul>
@@ -73,14 +78,14 @@
                 </div>
             <%--</div>--%>
         </nav>
-        <div class="container body-content">
+        <main class="container-fluid body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Northwest Traders (DMIT-2018 Practice)</p>
             </footer>
-        </div>
+        </main>
     </form>
 </body>
 </html>

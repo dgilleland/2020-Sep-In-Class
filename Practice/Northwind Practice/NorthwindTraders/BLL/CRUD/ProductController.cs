@@ -8,6 +8,66 @@ using System.Threading.Tasks;
 
 namespace NorthwindTraders.BLL.CRUD
 {
+    public class CustomerOrderController
+    {
+        #region Customers, Shippers
+        public List<Employee> ListAllEmployees()
+        {
+            using (var context = new NorthwindContext())
+            {
+                return context.Employees.ToList();
+            }
+        }
+        public List<Customer> ListCustomers()
+        {
+            using (var context = new NorthwindContext())
+            {
+                return context.Customers.ToList();
+            }
+        }
+        public List<Customer> FindCustomers(string partialName)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from company in context.Customers
+                              where company.CompanyName.Contains(partialName)
+                              select company;
+                return results.ToList();
+            }
+        }
+        public List<Shipper> ListShippers()
+        {
+            using (var context = new NorthwindContext())
+            {
+                return context.Shippers.ToList();
+            }
+        }
+        #endregion
+
+        #region Order CRUD
+        public object FindOrders(string customerId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from order in context.Orders
+                              where order.CustomerID.Equals(customerId)
+                              select order;
+                return results.ToList();
+            }
+        }
+        public Order FindOrder(int orderId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result = context.Orders.Find(orderId);
+                return result;
+            }
+        }
+        #endregion
+
+        #region OrderDetail CRUD
+        #endregion
+    }
     public class ProductController
     {
         #region Reading from the database

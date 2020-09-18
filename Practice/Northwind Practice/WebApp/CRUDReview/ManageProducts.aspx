@@ -9,27 +9,27 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-inline">
-                        <asp:Label ID="Label1" runat="server" CssClass="control-label"
+                        <asp:Label ID="Label1" runat="server" CssClass="col-form-label"
                             Text="Products" AssociatedControlID="CurrentProducts" />
                         &nbsp;
                         <asp:DropDownList ID="CurrentProducts" runat="server" CssClass="form-control">
                         </asp:DropDownList>
                         &nbsp;
                         <asp:LinkButton ID="ShowProductDetails" runat="server" CausesValidation="false"
-                            CssClass="btn btn-primary" OnClick="ShowProductDetails_Click">
-                            Show Product Details <i class="glyphicon glyphicon-search"></i>
+                            CssClass="btn btn-info" OnClick="ShowProductDetails_Click">
+                            Show Product Details 
                         </asp:LinkButton>
                     </div>
                 </div>
                 <div class="col-sm-6 text-center">
                     <asp:LinkButton ID="AddProduct" runat="server"
-                        CssClass="btn btn-default" OnClick="AddProduct_Click">Add Product</asp:LinkButton>
+                        CssClass="btn btn-success" OnClick="AddProduct_Click">Add Product</asp:LinkButton>
                     <asp:LinkButton ID="UpdateProduct" runat="server"
-                        CssClass="btn btn-default" OnClick="UpdateProduct_Click">Update Product</asp:LinkButton>
+                        CssClass="btn btn-primary" OnClick="UpdateProduct_Click">Update Product</asp:LinkButton>
                     <asp:LinkButton ID="DeleteProduct" runat="server"
-                        CssClass="btn btn-default" OnClick="DeleteProduct_Click">Delete Product</asp:LinkButton>
+                        CssClass="btn btn-danger" OnClick="DeleteProduct_Click">Delete Product</asp:LinkButton>
                     <asp:LinkButton ID="ClearForm" runat="server" CausesValidation="false"
-                        CssClass="btn btn-default" OnClick="ClearForm_Click">Clear Form</asp:LinkButton>
+                        CssClass="btn btn-warning" OnClick="ClearForm_Click">Clear Form</asp:LinkButton>
                 </div>
             </div>
         </div>

@@ -9,33 +9,47 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-inline">
-                        <asp:Label ID="Label1" runat="server" CssClass="control-label"
-                            Text="Orders" AssociatedControlID="CurrentOrders" />
+                        <asp:TextBox ID="CustomerSearch" runat="server" placeholder="Partial name - e.g.: anc" />
+                        &nbsp;
+                        <asp:LinkButton ID="FilterCustomers" runat="server" CausesValidation="false"
+                            CssClass="btn btn-secondary btn-sm" OnClick="FilterCustomers_Click">Search</asp:LinkButton>
+
+                        &nbsp;|&nbsp;
+
+                        <asp:Label ID="Label18" runat="server" CssClass="col-form-label col-form-label-sm"
+                            Text="Customers" AssociatedControlID="CustomerFilterDropDown" />
+                        &nbsp;
+                        <asp:DropDownList ID="CustomerFilterDropDown" runat="server" CssClass="form-control form-control-sm">
+                        </asp:DropDownList>
+                        &nbsp;
+                        <asp:LinkButton ID="FilterOrders" runat="server" CausesValidation="false"
+                            CssClass="btn btn-secondary btn-sm" OnClick="FilterOrders_Click">
+                            Select Customer
+                        </asp:LinkButton>
+                    </div>
+                    <br />
+                    <div class="form-inline">
+                        <asp:Label ID="Label1" runat="server" CssClass="col-form-label"
+                            Text="Customer Orders" AssociatedControlID="CurrentOrders" />
                         &nbsp;
                         <asp:DropDownList ID="CurrentOrders" runat="server" CssClass="form-control">
                         </asp:DropDownList>
                         &nbsp;
                         <asp:LinkButton ID="ShowOrderDetails" runat="server" CausesValidation="false"
-                            CssClass="btn btn-primary" OnClick="ShowOrderDetails_Click">
-                            Show Order Details <i class="glyphicon glyphicon-search"></i>
+                            CssClass="btn btn-info" OnClick="ShowOrderDetails_Click">
+                            Show Order Details 
                         </asp:LinkButton>
                     </div>
                 </div>
                 <div class="col-sm-6 text-center">
                     <asp:LinkButton ID="AddOrder" runat="server"
-                        CssClass="btn btn-default" OnClick="AddOrder_Click">Add Order</asp:LinkButton>
+                        CssClass="btn btn-success" OnClick="AddOrder_Click">Add Order</asp:LinkButton>
                     <asp:LinkButton ID="UpdateOrder" runat="server"
-                        CssClass="btn btn-default" OnClick="UpdateOrder_Click">Update Order</asp:LinkButton>
+                        CssClass="btn btn-primary" OnClick="UpdateOrder_Click">Update Order</asp:LinkButton>
                     <asp:LinkButton ID="DeleteOrder" runat="server"
-                        CssClass="btn btn-default" OnClick="DeleteOrder_Click">Delete Order</asp:LinkButton>
+                        CssClass="btn btn-danger" OnClick="DeleteOrder_Click">Delete Order</asp:LinkButton>
                     <asp:LinkButton ID="ClearForm" runat="server" CausesValidation="false"
-                        CssClass="btn btn-default" OnClick="ClearForm_Click">Clear Form</asp:LinkButton>
-                </div>
-            </div>
-        </div>
-        <hr />
-        <div class="col-md-12">
-            <br />
+                        CssClass="btn btn-warning" OnClick="ClearForm_Click">Clear Form</asp:LinkButton>
             <asp:Panel ID="MessagePanel" runat="server" Visible="false" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <asp:Label ID="MessageLabel" runat="server" />
@@ -43,6 +57,11 @@
 
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="alert alert-info"
                 HeaderText="Please note the following problems with your form. Correct these before adding or updating an Order." />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <hr />
         </div>
         <div class="col-md-6">
             <fieldset>

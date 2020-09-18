@@ -41,6 +41,7 @@ namespace NorthwindTraders.DataStore.Entities
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new HashSet<OrderDetail>();
 
+        [ForeignKey(nameof(ShipVia))]
         public virtual Shipper Shipper { get; set; }
 
         [NotMapped]

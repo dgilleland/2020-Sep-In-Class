@@ -36,7 +36,7 @@
                 <asp:Label ID="Label1" runat="server" CssClass="col-form-label font-weight-bold"
                     Text="Order" AssociatedControlID="CurrentOrders" />
                 &nbsp;
-                <asp:DropDownList ID="CurrentOrders" runat="server" CssClass="form-control">
+                <asp:DropDownList ID="CurrentOrders" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="CurrentOrders_SelectedIndexChanged">
                 </asp:DropDownList>
                 &nbsp;|&nbsp;
                 <asp:Label ID="Label2" runat="server" CssClass="col-form-label font-weight-bold"
@@ -44,9 +44,17 @@
                 &nbsp;
                 <asp:DropDownList ID="ProductDropDown" runat="server" CssClass="form-control">
                 </asp:DropDownList>
+            </div>
+            <br />
+            <div class="form-inline bg-light">
+                <asp:Label ID="Label5" runat="server" CssClass="col-form-label col-form-label-sm"
+                    Text="Items" AssociatedControlID="ProductFilterDropDown" />
+                &nbsp;
+                <asp:DropDownList ID="ProductFilterDropDown" runat="server" CssClass="form-control form-control-sm">
+                </asp:DropDownList>
                 &nbsp;
                 <asp:LinkButton ID="ShowOrderDetails" runat="server" CausesValidation="false"
-                    CssClass="btn btn-info" OnClick="ShowOrderDetails_Click">
+                    CssClass="btn btn-info btn-sm" OnClick="ShowOrderDetails_Click">
                     Lookup Order Details 
                 </asp:LinkButton>
             </div>

@@ -66,6 +66,47 @@ namespace NorthwindTraders.BLL.CRUD
         #endregion
 
         #region OrderDetail CRUD
+        public OrderDetail FindOrderDetail(int orderId, int productId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result = context.OrderDetails.Find(orderId, productId);
+                return result;
+            }
+        }
+        public List<Product> FindOrderItems(int orderId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result = context.OrderDetails.Where(item => item.OrderID == orderId).Select(item => item.Product);
+                return result.ToList();
+            }
+        }
+        public void AddOrderDetail(OrderDetail item)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var newItem = context.OrderDetails.Add(item);
+                context.SaveChanges();
+            }
+        }
+        public void UpdateOrderDetail(OrderDetail item)
+        {
+            using (var context = new NorthwindContext())
+            {
+                context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+        public void DeleteOrderDetail(OrderDetail item)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var existing = context.OrderDetails.Find(item.OrderID, item.ProductID);
+                context.OrderDetails.Remove(existing);
+                context.SaveChanges();
+            }
+        }
         #endregion
     }
     public class ProductController

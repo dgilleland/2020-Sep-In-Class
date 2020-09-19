@@ -118,8 +118,30 @@ namespace WebApp.CRUDReview
 
         protected void ClearForm_Click(object sender, EventArgs e)
         {
-
+            ShowMessage("This feature is coming in v1.2", AlertStyle.info);
         }
         #endregion
+        // Enumeration values based off of Bootstrap styles for alerts.
+        public enum AlertStyle { success, info, warning, danger }
+
+        private void ShowMessage(string message, AlertStyle alertStyle)
+        {
+            MessageLabel.Text = message;
+            MessagePanel.CssClass = $"alert alert-{alertStyle} alert-dismissible";
+            MessagePanel.Visible = true;
+        }
+
+        private void ShowFullExceptionMessage(Exception ex)
+        {
+            string message = $"ERROR: {ex.Message}";
+            // get the inner exception....
+            Exception inner = ex;
+            // this next statement drills down on the details of the exception
+            while (inner.InnerException != null)
+                inner = inner.InnerException;
+            if (inner != ex)
+                message += $"<blockquote>{inner.Message}</blockquote>";
+            ShowMessage(message, AlertStyle.danger);
+        }
     }
 }

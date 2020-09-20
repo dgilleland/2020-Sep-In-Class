@@ -63,6 +63,34 @@ namespace NorthwindTraders.BLL.CRUD
                 return result;
             }
         }
+        public int AddOrder(Order custOrder)
+        {
+            using (var context = new NorthwindContext())
+            {
+                custOrder.LastModified = DateTime.Now;
+                var result = context.Orders.Add(custOrder);
+                context.SaveChanges();
+                return result.OrderID;
+            }
+        }
+        public DateTime UpdateOrder(Order custOrder)
+        {
+            using (var context = new NorthwindContext())
+            {
+                custOrder.LastModified = DateTime.Now;
+                context.Entry(custOrder).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+                return custOrder.LastModified;
+            }
+        }
+        public void DeleteOrder(int orderId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                context.Orders.Remove(context.Orders.Find(orderId));
+                context.SaveChanges();
+            }
+        }
         #endregion
 
         #region OrderDetail CRUD

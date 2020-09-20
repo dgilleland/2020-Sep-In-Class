@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\Class1.cs" />
+    <Compile Include="BLL\CRUD\CustomerOrderController.cs" />
     <Compile Include="BLL\CRUD\ProductController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

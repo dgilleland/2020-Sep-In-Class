@@ -28,6 +28,11 @@ After examining the *PaymentLogDetails*, there were no changes.
 
 **Customer:** <span class="md"><b class="pk">CustomerNumber</b>, FirstName, LastName</span>
 
+
+### ERD
+
+> TODO
+
 ----
 
 <style>

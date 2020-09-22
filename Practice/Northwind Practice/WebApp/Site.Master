@@ -53,6 +53,7 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">CRUD Samples</a>
                         <div class="dropdown-menu">
+                            <a runat="server" class="dropdown-item" href="~/CRUDReview/DataBound/CustomerListing.aspx">Search Customers</a>
                             <a runat="server" class="dropdown-item" href="~/CRUDReview/ManageProducts.aspx">Manage Products</a>
                             <a runat="server" class="dropdown-item" href="~/CRUDReview/ManageOrders.aspx">Manage Orders</a>
                             <a runat="server" class="dropdown-item" href="~/CRUDReview/ManageOrderDetails.aspx">Manage Order Details</a>

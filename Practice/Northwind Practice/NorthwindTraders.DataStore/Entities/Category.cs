@@ -1,27 +1,34 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace NorthwindTraders.DataStore.Entities
 {
-    // It's a "best practice" to name your classes in the singular form
-    [Table("Categories")]
-    public class Category
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Category
     {
-        // A property for each column in the DB table
-        [Key] // "Annotation" - Primary Key
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Category()
+        {
+            Products = new HashSet<Product>();
+        }
+
         public int CategoryID { get; set; }
 
-        [Required(ErrorMessage = "CategoryName is required")]
-        [StringLength(15, ErrorMessage = "A category name cannot be longer than 15 characters")]
+        [Required]
+        [StringLength(15)]
         public string CategoryName { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
+
         public byte[] Picture { get; set; }
-        [StringLength(40, ErrorMessage = "The PictureMimeType cannot be longer than 40 characters")]
+
+        [StringLength(40)]
         public string PictureMimeType { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; } = new HashSet<Product>();
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

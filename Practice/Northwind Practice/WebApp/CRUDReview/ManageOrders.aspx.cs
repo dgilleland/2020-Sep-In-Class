@@ -37,7 +37,7 @@ namespace WebApp.CRUDReview
                 ShipperDropDown.DataBind();
                 ShipperDropDown.Items.Insert(0, new ListItem("[Select a shipper]", "0"));
 
-                CustomerDropDown.DataSource = controller.ListCustomers();
+                CustomerDropDown.DataSource = controller.ListCustomers(string.Empty);
                 CustomerDropDown.DataTextField = nameof(Customer.CompanyName);
                 CustomerDropDown.DataValueField = nameof(Customer.CustomerID);
                 CustomerDropDown.DataBind();

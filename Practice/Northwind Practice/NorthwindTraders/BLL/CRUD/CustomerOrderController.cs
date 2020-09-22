@@ -2,11 +2,13 @@
 using NorthwindTraders.DataStore.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel; // Provides the [DataObject] and [DataObjectMethod] attributes
 using System.Linq;
 
 namespace NorthwindTraders.BLL.CRUD
 {
+    // These attributes make our class "discoverable" to Visual Studio in our Web App
+    [DataObject] // This class can be used to work with Data Objects and Databound Controls
     public class CustomerOrderController
     {
         #region Customers, Shippers
@@ -17,11 +19,21 @@ namespace NorthwindTraders.BLL.CRUD
                 return context.Employees.ToList();
             }
         }
-        public List<Customer> ListCustomers()
+        [DataObjectMethod(DataObjectMethodType.Select)] // This method will return data
+        public List<Customer> ListCustomers(string partialName)
         {
+            if (string.IsNullOrWhiteSpace(partialName)) partialName = string.Empty;
             using (var context = new NorthwindContext())
             {
-                return context.Customers.ToList();
+                // I am wanting to include the Order data with the customer info
+                // to avoid this error:
+                // The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+                var result = context.Customers
+                                    .Include(nameof(Customer.Orders))
+                                    // .Where() is LINQ using Method Syntax
+                                    .Where(cust => cust.CompanyName.Contains(partialName));
+                var inMemory = result.ToList();
+                return inMemory;
             }
         }
         public List<Customer> FindCustomers(string partialName)

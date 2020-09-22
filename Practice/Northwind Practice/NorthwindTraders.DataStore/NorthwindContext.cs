@@ -10,7 +10,10 @@ namespace NorthwindTraders.DataStore
     public class NorthwindContext : DbContext
     {
         public NorthwindContext() : base("name=NW2018")
-        { }
+        {
+            // Turn off the automatic/default behaviour of EF to generate/create tables
+            Database.SetInitializer<NorthwindContext>(null);
+        }
 
         #region "Virtual" Tables
         public virtual DbSet<Category> Categories { get; set; }

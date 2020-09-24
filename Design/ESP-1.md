@@ -69,7 +69,7 @@ This legend is a guide to reading and interpreting the table listings under 0NF 
 
 ### ERD
 
-> TODO: ERD Image Here 
+![ERD](./ESP-CustomerOrdersView.png)
 
 ----
 

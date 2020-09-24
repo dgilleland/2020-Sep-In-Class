@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NorthwindTraders.DataStore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,15 @@ namespace WebApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if(!IsPostBack)
+            {
+                using(var context = new NorthwindContext())
+                {
+                    var employees = context.Employees.ToList();
+                    EmployeeInfo.DataSource = employees;
+                    EmployeeInfo.DataBind();
+                }
+            }
         }
     }
 }

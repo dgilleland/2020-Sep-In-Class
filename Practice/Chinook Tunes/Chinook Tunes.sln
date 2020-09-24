@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{FC9757D6-86D5-4DBD-8A5C-E67421DBD192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinookTunes", "ChinookTunes\ChinookTunes.csproj", "{5D7BEDC4-DBAB-41F7-B802-F13177CF7AD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC9757D6-86D5-4DBD-8A5C-E67421DBD192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC9757D6-86D5-4DBD-8A5C-E67421DBD192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC9757D6-86D5-4DBD-8A5C-E67421DBD192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC9757D6-86D5-4DBD-8A5C-E67421DBD192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7BEDC4-DBAB-41F7-B802-F13177CF7AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7BEDC4-DBAB-41F7-B802-F13177CF7AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7BEDC4-DBAB-41F7-B802-F13177CF7AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7BEDC4-DBAB-41F7-B802-F13177CF7AD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6225D2DB-07F4-4083-B525-DADD6D62A7DD}
+	EndGlobalSection
+EndGlobal

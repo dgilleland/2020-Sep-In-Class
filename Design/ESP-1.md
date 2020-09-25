@@ -75,7 +75,12 @@ This legend is a guide to reading and interpreting the table listings under 0NF 
 
 ### ERD
 
-> TODO: ERD Image Here
+![Customers View](./ESP-CustomerOrder.png)
+
+- Each Customer must be the one who places one or more Orders. Each Order must be placed by one and only one Customer.
+- Each Order must be comprised of one or more OrderDetails. Each OrderDetail must be part of one and only one Order.
+- Each OrderDetail must be for one and only one Item. Each Item may be sold through one or more OrderDetails.
+
 
 ----
 

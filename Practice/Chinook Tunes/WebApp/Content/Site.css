@@ -26,7 +26,11 @@ input[type="tel"],
 input[type="select"] {
     max-width: 280px;
 }
-
+/* Override old bootstrap styles */
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .jumbotron {

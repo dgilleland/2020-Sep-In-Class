@@ -18,12 +18,12 @@
 
     <asp:GridView ID="EmployeeContacts" runat="server"
          AutoGenerateColumns="false"
-         ItemType="ChinookTunes.Entities.Employee">
+         ItemType="ChinookTunes.ViewModels.EmployeeContactInfo">
         <Columns>
             <asp:TemplateField HeaderText="Employee">
                 <ItemTemplate>
                     <b><%# Item.FirstName %></b> <%# Item.LastName %>
-                    (<i><%# Item.Title %></i>)
+                    (<i><%# Item.JobTitle %></i>)
                 </ItemTemplate>
             </asp:TemplateField>
 

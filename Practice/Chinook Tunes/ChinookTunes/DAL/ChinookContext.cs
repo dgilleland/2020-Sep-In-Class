@@ -6,7 +6,8 @@ namespace ChinookTunes.DAL
     using System.Linq;
     using ChinookTunes.Entities;
 
-    public partial class ChinookContext : DbContext
+    // internal means this class is public "inside of" the ChinookTunes.dll, but private to everything outside that library
+    internal partial class ChinookContext : DbContext
     {
         public ChinookContext()
             : base("name=ChinookDb")

@@ -1,4 +1,5 @@
-﻿using ChinookTunes.DAL;
+﻿using ChinookTunes;
+using ChinookTunes.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,11 @@ namespace WebApp
         {
             if(!IsPostBack)
             {
-                // BUG: Bad Code - don't access DAL directly!!!!
-                using (var context = new ChinookContext())
-                {
-                    var data = context.Employees.ToList();
-                    EmployeeContacts.DataSource = data;
-                    EmployeeContacts.DataBind();
-                }
+                // Rule of thumb: Do NOT bypass the BLL by accessing the DAL/Entities directly.
+                var controller = new ContactController();
+                var data = controller.ListCurrentEmployees();
+                EmployeeContacts.DataSource = data;
+                EmployeeContacts.DataBind();
             }
         }
     }

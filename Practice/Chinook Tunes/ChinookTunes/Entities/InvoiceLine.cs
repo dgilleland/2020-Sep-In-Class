@@ -6,7 +6,7 @@ namespace ChinookTunes.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class InvoiceLine
+    internal partial class InvoiceLine
     {
         public int InvoiceLineId { get; set; }
 

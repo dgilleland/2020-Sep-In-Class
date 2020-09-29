@@ -29,21 +29,20 @@
             </div>
             <asp:ListView ID="AlbumsListView" runat="server"
                 DataSourceID="AlbumsDataSource"
+                DataKeyNames="ID"
                 InsertItemPosition="FirstItem"
                 ItemType="ChinookTunes.ViewModels.AlbumInfo">
                 <EditItemTemplate>
-                    <tr style="">
-                        <td>
-                            <asp:Button runat="server" CommandName="Update" Text="Update" ID="UpdateButton" />
-                            <asp:Button runat="server" CommandName="Cancel" Text="Cancel" ID="CancelButton" />
-                        </td>
-                        <td>
-                            <asp:TextBox Text='<%# Bind("ID") %>' runat="server" ID="IDTextBox" /></td>
-                        <td>
-                            <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" /></td>
-                        <td>
-                            <asp:TextBox Text='<%# Bind("ArtistID") %>' runat="server" ID="ArtistIDTextBox" /></td>
-                    </tr>
+                    <div class="bg-info">
+                        <asp:Button runat="server" CommandName="Update" Text="Update" ID="UpdateButton" />
+                        <asp:Button runat="server" CommandName="Cancel" Text="Cancel" ID="CancelButton" />
+                        <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" />
+                        <asp:DropDownList ID="ArtistDropDown" runat="server" AppendDataBoundItems="true"
+                            DataSourceID="ArtistDataSource" DataTextField="DisplayText" DataValueField="IDValue"
+                            SelectedValue="<%# BindItem.ArtistID %>">
+                            <asp:ListItem Value="0">[Select an Artist]</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
                 </EditItemTemplate>
                 <EmptyDataTemplate>
                     <table runat="server" style="">
@@ -67,6 +66,8 @@
                 <ItemTemplate>
                     <div>
                         <b><%# Item.Title %></b>
+                        <asp:Button runat="server" CommandName="Edit" Text="Edit" ID="EditButton" />
+                        <asp:Button runat="server" CommandName="Delete" Text="Delete" ID="DeleteButton" />
                         <blockquote>by <i><%# Item.ArtistName %></i></blockquote>
                     </div>
                 </ItemTemplate>

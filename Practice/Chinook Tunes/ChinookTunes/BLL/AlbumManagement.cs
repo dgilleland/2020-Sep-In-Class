@@ -13,6 +13,7 @@ namespace ChinookTunes.BLL
     [DataObject]
     public class AlbumManagement
     {
+        #region Query Methods
         [DataObjectMethod(DataObjectMethodType.Select)]
         public List<AlbumInfo> ListAlbums()
         {
@@ -31,6 +32,25 @@ namespace ChinookTunes.BLL
             }
         }
 
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<SelectionItem> ListArtists()
+        {
+            using (var context = new ChinookContext())
+            {
+                //  results is IQueryable<T>, which is like a "Collection" of
+                var results = from row in context.Artists  // Go through all the Artists
+                    // foreach(var row in context.Artists) // Loop through all the Artists
+                              select new SelectionItem // Create a SelectionItem object using
+                              {
+                                  DisplayText = row.Name,  // Name of the Artist
+                                  IDValue = row.ArtistId.ToString() // ID of the Artist
+                              };
+                return results.ToList(); // Convert the IQueryable<T> to a List<T>
+            }
+        }
+        #endregion
+
+        #region Command Methods - Insert/Update/Delete
         [DataObjectMethod(DataObjectMethodType.Insert)]
         public void AddAlbum(AlbumInfo info)
         {
@@ -53,13 +73,31 @@ namespace ChinookTunes.BLL
         [DataObjectMethod(DataObjectMethodType.Update)]
         public void UpdateAlbum(AlbumInfo info)
         {
-            throw new NotImplementedException("Update functionality not yet implemented");
+            using (var context = new ChinookContext())
+            {
+                // 1) Lookup the existing Album data from the database
+                var existing = context.Albums.Find(info.ID); // Look it up based on the AlbumInfo.ID
+                // 2) Change the property values for the Album
+                existing.Title = info.Title;
+                existing.ArtistId = info.ArtistID;
+                // ... and any other properties
+                // 3) Tell the DbContext that I am modifying the album
+                context.Entry(existing).State = System.Data.Entity.EntityState.Modified;
+                // 4) Issue the update on the database
+                context.SaveChanges();
+            }
         }
 
         [DataObjectMethod(DataObjectMethodType.Delete)]
         public void DeleteAlbum(AlbumInfo info)
         {
-            throw new NotImplementedException("Delete functionality not yet implemented");
+            using (var context = new ChinookContext())
+            {
+                var existing = context.Albums.Find(info.ID);
+                context.Albums.Remove(existing);
+                context.SaveChanges();
+            }
         }
+        #endregion
     }
 }

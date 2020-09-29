@@ -18,6 +18,7 @@
                         grid-column: 1 / 5;
                         background-color: cadetblue;
                     }
+
                     .albums > div {
                         padding: 3px;
                         border: solid thin cadetblue;
@@ -53,11 +54,14 @@
                 </EmptyDataTemplate>
                 <InsertItemTemplate>
                     <div>
-                            <asp:Button runat="server" CommandName="Insert" Text="Insert" ID="InsertButton" />
-                            <asp:Button runat="server" CommandName="Cancel" Text="Clear" ID="CancelButton" />
-                            <asp:TextBox Text='<%# Bind("ID") %>' runat="server" ID="IDTextBox" placeholder="Album-ID" />
-                                <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" placeholder="Title" />
-                        <asp:TextBox Text='<%# Bind("ArtistID") %>' runat="server" ID="ArtistIDTextBox" placeholder="Artist ID" /></td>
+                        <asp:Button runat="server" CommandName="Insert" Text="Insert" ID="InsertButton" />
+                        <asp:Button runat="server" CommandName="Cancel" Text="Clear" ID="CancelButton" />
+                        <asp:TextBox Text='<%# BindItem.Title %>' runat="server" ID="TitleTextBox" placeholder="Title" />
+                        <asp:DropDownList ID="ArtistDropDown" runat="server" AppendDataBoundItems="true"
+                            DataSourceID="ArtistDataSource" DataTextField="DisplayText" DataValueField="IDValue"
+                            SelectedValue="<%# BindItem.ArtistID %>">
+                            <asp:ListItem Value="0">[Select an Artist]</asp:ListItem>
+                        </asp:DropDownList>
                     </div>
                 </InsertItemTemplate>
                 <ItemTemplate>
@@ -83,6 +87,9 @@
                     </tr>
                 </SelectedItemTemplate>
             </asp:ListView>
+
+            <asp:ObjectDataSource ID="ArtistDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="ListArtists" TypeName="ChinookTunes.BLL.AlbumManagement"></asp:ObjectDataSource>
+
             <asp:ObjectDataSource ID="AlbumsDataSource" runat="server"
                 OldValuesParameterFormatString="original_{0}"
                 SelectMethod="ListAlbums"

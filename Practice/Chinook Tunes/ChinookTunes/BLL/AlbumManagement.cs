@@ -32,14 +32,20 @@ namespace ChinookTunes.BLL
 
         [DataObjectMethod(DataObjectMethodType.Insert)]
         public void AddAlbum(AlbumInfo info)
-        { }
+        {
+            throw new NotImplementedException("Add functionality not yet implemented");
+        }
 
         [DataObjectMethod(DataObjectMethodType.Update)]
         public void UpdateAlbum(AlbumInfo info)
-        { }
+        {
+            throw new NotImplementedException("Update functionality not yet implemented");
+        }
 
         [DataObjectMethod(DataObjectMethodType.Delete)]
         public void DeleteAlbum(AlbumInfo info)
-        { }
+        {
+            throw new NotImplementedException("Delete functionality not yet implemented");
+        }
     }
 }

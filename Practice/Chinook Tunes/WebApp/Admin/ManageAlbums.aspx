@@ -23,8 +23,12 @@
                         border: solid thin cadetblue;
                     }
             </style>
+            <div>
+                <asp:Label ID="MessageLabel" runat="server" />
+            </div>
             <asp:ListView ID="AlbumsListView" runat="server"
                 DataSourceID="AlbumsDataSource"
+                InsertItemPosition="FirstItem"
                 ItemType="ChinookTunes.ViewModels.AlbumInfo">
                 <EditItemTemplate>
                     <tr style="">
@@ -48,18 +52,13 @@
                     </table>
                 </EmptyDataTemplate>
                 <InsertItemTemplate>
-                    <tr style="">
-                        <td>
+                    <div>
                             <asp:Button runat="server" CommandName="Insert" Text="Insert" ID="InsertButton" />
                             <asp:Button runat="server" CommandName="Cancel" Text="Clear" ID="CancelButton" />
-                        </td>
-                        <td>
-                            <asp:TextBox Text='<%# Bind("ID") %>' runat="server" ID="IDTextBox" /></td>
-                        <td>
-                            <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" /></td>
-                        <td>
-                            <asp:TextBox Text='<%# Bind("ArtistID") %>' runat="server" ID="ArtistIDTextBox" /></td>
-                    </tr>
+                            <asp:TextBox Text='<%# Bind("ID") %>' runat="server" ID="IDTextBox" />
+                                <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" />
+                        <asp:TextBox Text='<%# Bind("ArtistID") %>' runat="server" ID="ArtistIDTextBox" /></td>
+                    </div>
                 </InsertItemTemplate>
                 <ItemTemplate>
                     <div>
@@ -84,7 +83,16 @@
                     </tr>
                 </SelectedItemTemplate>
             </asp:ListView>
-            <asp:ObjectDataSource ID="AlbumsDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="ListAlbums" TypeName="ChinookTunes.BLL.AlbumManagement"></asp:ObjectDataSource>
+            <asp:ObjectDataSource ID="AlbumsDataSource" runat="server"
+                OldValuesParameterFormatString="original_{0}"
+                SelectMethod="ListAlbums"
+                TypeName="ChinookTunes.BLL.AlbumManagement"
+                DataObjectTypeName="ChinookTunes.ViewModels.AlbumInfo"
+                DeleteMethod="DeleteAlbum"
+                InsertMethod="AddAlbum"
+                UpdateMethod="UpdateAlbum"
+                OnInserting="AlbumsDataSource_Inserting"
+                OnInserted="AlbumsDataSource_Inserted"></asp:ObjectDataSource>
         </div>
     </div>
 </asp:Content>

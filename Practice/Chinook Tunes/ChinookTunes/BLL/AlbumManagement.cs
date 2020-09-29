@@ -1,4 +1,5 @@
 ﻿using ChinookTunes.DAL;
+using ChinookTunes.Entities;
 using ChinookTunes.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,20 @@ namespace ChinookTunes.BLL
         [DataObjectMethod(DataObjectMethodType.Insert)]
         public void AddAlbum(AlbumInfo info)
         {
-            throw new NotImplementedException("Add functionality not yet implemented");
+            using (var context = new ChinookContext())
+            {
+                // Create a new Album from the AlbumInfo view-model class
+                var newItem = new Album // Album is the Entity class
+                {
+                    ArtistId = info.ArtistID,
+                    Title = info.Title
+                    // Add any other property values for the Album
+                };
+                //var added = 
+                    context.Albums.Add(newItem);
+                context.SaveChanges();
+            }
+            //throw new NotImplementedException("Add functionality not yet implemented");
         }
 
         [DataObjectMethod(DataObjectMethodType.Update)]

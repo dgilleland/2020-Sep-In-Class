@@ -55,9 +55,9 @@
                     <div>
                             <asp:Button runat="server" CommandName="Insert" Text="Insert" ID="InsertButton" />
                             <asp:Button runat="server" CommandName="Cancel" Text="Clear" ID="CancelButton" />
-                            <asp:TextBox Text='<%# Bind("ID") %>' runat="server" ID="IDTextBox" />
-                                <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" />
-                        <asp:TextBox Text='<%# Bind("ArtistID") %>' runat="server" ID="ArtistIDTextBox" /></td>
+                            <asp:TextBox Text='<%# Bind("ID") %>' runat="server" ID="IDTextBox" placeholder="Album-ID" />
+                                <asp:TextBox Text='<%# Bind("Title") %>' runat="server" ID="TitleTextBox" placeholder="Title" />
+                        <asp:TextBox Text='<%# Bind("ArtistID") %>' runat="server" ID="ArtistIDTextBox" placeholder="Artist ID" /></td>
                     </div>
                 </InsertItemTemplate>
                 <ItemTemplate>

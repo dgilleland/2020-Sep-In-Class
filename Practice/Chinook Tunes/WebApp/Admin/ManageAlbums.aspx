@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageAlbums.aspx.cs" Inherits="WebApp.Admin.ManageAlbums" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <h1 class="page-header">Manage Albums</h1>
@@ -25,12 +28,13 @@
                     }
             </style>
             <div>
-                <asp:Label ID="MessageLabel" runat="server" />
+                <uc1:MessageUserControl runat="server" id="MessageUserControl" />
             </div>
             <asp:ListView ID="AlbumsListView" runat="server"
                 DataSourceID="AlbumsDataSource"
                 DataKeyNames="ID"
                 InsertItemPosition="FirstItem"
+                OnItemCommand="AlbumsListView_ItemCommand"
                 ItemType="ChinookTunes.ViewModels.AlbumInfo">
                 <EditItemTemplate>
                     <div class="bg-info">
@@ -65,7 +69,8 @@
                 </InsertItemTemplate>
                 <ItemTemplate>
                     <div>
-                        <b><%# Item.Title %></b>
+                        <asp:LinkButton ID="SelectButton" runat="server" CommandName="Select">
+                        <b><%# Item.Title %></b></asp:LinkButton>
                         <asp:Button runat="server" CommandName="Edit" Text="Edit" ID="EditButton" />
                         <asp:Button runat="server" CommandName="Delete" Text="Delete" ID="DeleteButton" />
                         <blockquote>by <i><%# Item.ArtistName %></i></blockquote>
@@ -78,14 +83,17 @@
                     </div>
                 </LayoutTemplate>
                 <SelectedItemTemplate>
-                    <tr style="">
-                        <td>
-                            <asp:Label Text='<%# Eval("ID") %>' runat="server" ID="IDLabel" /></td>
-                        <td>
-                            <asp:Label Text='<%# Eval("Title") %>' runat="server" ID="TitleLabel" /></td>
-                        <td>
-                            <asp:Label Text='<%# Eval("ArtistID") %>' runat="server" ID="ArtistIDLabel" /></td>
-                    </tr>
+                    <div>
+                        <b><%# Item.Title %></b>
+                        <asp:Button runat="server" CommandName="Unselect" Text="De-Select" ID="DeselectButton" />
+                        <blockquote>by <i><%# Item.ArtistName %></i></blockquote>
+                        <div>
+                            <asp:Repeater ID="SongRepeater" runat="server" DataSource="<%# Item.Songs %>" ItemType="System.String">
+                                 <ItemTemplate><%# Item %></ItemTemplate>
+                                <SeparatorTemplate>, </SeparatorTemplate>
+                            </asp:Repeater>
+                        </div>
+                    </div>
                 </SelectedItemTemplate>
             </asp:ListView>
 
@@ -99,8 +107,7 @@
                 DeleteMethod="DeleteAlbum"
                 InsertMethod="AddAlbum"
                 UpdateMethod="UpdateAlbum"
-                OnInserting="AlbumsDataSource_Inserting"
-                OnInserted="AlbumsDataSource_Inserted"></asp:ObjectDataSource>
+                OnInserted="CheckForExceptions"></asp:ObjectDataSource>
         </div>
     </div>
 </asp:Content>

@@ -15,13 +15,13 @@ namespace WebApp.Admin
     {
 
         /// <summary>
-        /// MessageLabel control.
+        /// MessageUserControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MessageLabel;
+        protected global::FreeCode.WebApp.UserControls.MessageUserControl MessageUserControl;
 
         /// <summary>
         /// AlbumsListView control.

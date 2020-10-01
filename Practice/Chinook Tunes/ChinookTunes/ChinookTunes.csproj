@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BLL\AlbumManagement.cs" />
     <Compile Include="BLL\ContactController.cs" />
+    <Compile Include="BLL\TrackManagment.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="DAL\ChinookContext.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="ViewModels\AlbumInfo.cs" />
     <Compile Include="ViewModels\EmployeeContactInfo.cs" />
     <Compile Include="ViewModels\SelectionItem.cs" />
+    <Compile Include="ViewModels\Songs.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

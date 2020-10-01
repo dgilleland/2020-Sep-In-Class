@@ -25,8 +25,10 @@ namespace ChinookTunes.BLL
                                  ID = record.AlbumId,
                                  Title = record.Title,
                                  ArtistID = record.ArtistId,
-                                 ArtistName = record.Artist.Name
+                                 ArtistName = record.Artist.Name,
                                  //                 \ NAV /
+                                 Songs = from track in record.Tracks
+                                         select track.Name
                              };
                 return result.ToList();
             }

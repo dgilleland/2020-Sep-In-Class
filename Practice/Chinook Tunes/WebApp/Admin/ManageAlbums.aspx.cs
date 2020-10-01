@@ -14,20 +14,17 @@ namespace WebApp.Admin
 
         }
 
-        protected void AlbumsDataSource_Inserting(object sender, ObjectDataSourceMethodEventArgs e)
+        protected void CheckForExceptions(object sender, ObjectDataSourceStatusEventArgs e)
         {
-            // Before the Insert is attempted by the ObjectDataSource control
-            MessageLabel.Text += "BEFORE - An INSERT is being made by the ObjectDataSource control.";
+            MessageUserControl.HandleDataBoundException(e);
         }
 
-        protected void AlbumsDataSource_Inserted(object sender, ObjectDataSourceStatusEventArgs e)
+        protected void AlbumsListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            // After the Insert has been attempted by the ObjectDataSource control
-            MessageLabel.Text += "<br/>After - An INSERT has been attempted by the ObjectDataSource control.";
-            if (e.Exception != null)
+            if(e.CommandName == "Unselect")
             {
-                MessageLabel.Text += $"<blockquote>ERROR: {e.Exception.Message}</blockquote>";
-                e.ExceptionHandled = true; // Tells the ObjectDataSource control that I've handled the exception with my own code.
+                AlbumsListView.SelectedIndex = -1; // Effectively "de-selecting"
+                e.Handled = true; // Tell the ListView we dealt with the command ourselves
             }
         }
     }

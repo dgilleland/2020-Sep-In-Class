@@ -16,5 +16,6 @@ namespace ChinookTunes.ViewModels
         public int ArtistID { get; set; }
         public string ArtistName { get; set; }
         // And any other properties your db has on the Album table...
+        public IEnumerable<string> Songs { get; set; }
     }
 }

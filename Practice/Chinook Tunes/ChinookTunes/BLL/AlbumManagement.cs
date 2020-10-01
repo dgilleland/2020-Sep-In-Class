@@ -19,14 +19,18 @@ namespace ChinookTunes.BLL
         {
             using (var context = new ChinookContext())
             {
+                // LINQ - Language INtegrated Query
+                // - using the Query Syntax to retrieve info from the database
                 var result = from record in context.Albums
                              select new AlbumInfo
                              {
                                  ID = record.AlbumId,
                                  Title = record.Title,
                                  ArtistID = record.ArtistId,
-                                 ArtistName = record.Artist.Name
+                                 ArtistName = record.Artist.Name,
                                  //                 \ NAV /
+                                 Songs = from track in record.Tracks
+                                         select track.Name
                              };
                 return result.ToList();
             }

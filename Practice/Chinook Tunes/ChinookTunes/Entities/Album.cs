@@ -16,7 +16,7 @@ namespace ChinookTunes.Entities
 
         public int AlbumId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A Title is required for each Album")]
         [StringLength(160)]
         public string Title { get; set; }
 

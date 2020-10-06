@@ -19,6 +19,8 @@ GO
 
 -- Drop Tables...
 --    Drop them in the REVERSE ORDER I created them
+IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'StudentCourses')
+    DROP TABLE StudentCourses
 IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'Courses')
     DROP TABLE Courses
 IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'Students')
@@ -28,21 +30,101 @@ IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'
 --    Build them in an order that supports FK constraints
 -- My personal coding convention is to keep all SQL keywords in UPPER CASE except for data types (lower case)
 -- and all object names (Tables, ColumnNames, etc.) as TitleCase.
+-- A Table Definition consists of a comma-separated list
+-- of Column Definitions and Table Constraints
 CREATE TABLE Students -- The default "schema" name is [dbo] - a "schema" is a subset of a database
 (
-    StudentID       int         NOT NULL,
+    -- Our column definitions will describe the
+    -- name of the column and its data type as well as
+    -- any "contraints" or "restrictions" around the
+    -- data that can be stored in that column
+    StudentID       int
+        CONSTRAINT PK_Students_StudentID PRIMARY KEY
+        -- A PRIMARY KEY constraint prevents duplicate data
+                                         IDENTITY (2000, 5)
+        -- The IDENTITY constraint does not need a name.
+        -- An IDENTITY constraint means that the database server
+        -- will take responsibility to put a value in this column
+        -- every time a new row is added to the table.
+        -- IDENTITY constraints can only be applied to PRIMARY KEY
+        -- columns that are of a whole-number numeric type.
+        -- The IDENTITY constraint takes two values
+        --   - The "seed" or starting value for the first row
+        --   - the "increment" or value by which we increment
+                                NOT NULL,
+    --                          NOT NULL means required
     GivenName       varchar(50) NOT NULL,
     Surname         varchar(50) NOT NULL,
     DateOfBirth     datetime    NOT NULL,
     Enrolled        bit         NOT NULL
+        CONSTRAINT DF_Students_Enrolled DEFAULT (1)
+        -- A DEFAULT constraint means that if no data is supplied
+        -- for this column, it will automatically use the default value
 )
 
 CREATE TABLE Courses
 (
-    [Number]        varchar(10)     NOT NULL,
+    [Number]        varchar(10)
+        CONSTRAINT PK_Courses_Number PRIMARY KEY
+                                    NOT NULL,
     [Name]          varchar(50)     NOT NULL,
     Credits         decimal(3,1)    NOT NULL,
-    [Hours]         tinyint         NOT NULL,
+    [Hours]         tinyint
+        CONSTRAINT CK_Courses_Hours
+            CHECK ([Hours] BETWEEN 60 AND 120)
+        -- A CHECK constraint will ensure that the value passed in
+        -- meets the requirements of the constraint.
+                                    NOT NULL,
     Active          bit             NOT NULL,
     Cost            money           NOT NULL
 )
+
+CREATE TABLE StudentCourses
+(
+    StudentID       int
+        CONSTRAINT FK_StudentCourses_Students
+            FOREIGN KEY REFERENCES Students(StudentID)
+        -- A FOREIGN KEY constraint means that the only values
+        -- acceptable for this column must be values that exist
+        -- in the referenced table.
+                                    NOT NULL,
+    CourseNumber    varchar(10)
+        CONSTRAINT FK_StudentCourses_Courses -- All constraint names must be unique
+            FOREIGN KEY REFERENCES Courses([Number])
+                                    NOT NULL,
+    [Year]          int             NOT NULL,
+    Term            char(3)         NOT NULL,
+    FinalMark       tinyint             NULL,
+    [Status]        char(1)         NOT NULL,
+    -- Table-Level Constraint - when a constraint involves more than one column
+    CONSTRAINT PK_StudentCourses_StudentID_CourseNumber
+        PRIMARY KEY (StudentID, CourseNumber)
+        -- Composite Primary Key Constraint
+)
+GO -- Finish the table creation as a batch
+
+-- Let's add some data to our tables. We do this with an INSERT statement
+INSERT INTO Students(GivenName, Surname, DateOfBirth, Enrolled)
+VALUES ('Stewart', 'Dent', 'JAN 15, 2000', 1),
+       ('Crystal', 'Clear', 'SEP 21, 1999', 1),
+       ('Len', 'Der', 'MAR 8, 2001', 1)
+
+-- If I don't specify a value for Enrolled, it will use the DEFAULT
+INSERT INTO Students(GivenName, SurName, DateOfBirth)
+VALUES ('Ken Tuck', 'Ederby', 'OCT 3, 1997')
+
+INSERT INTO Courses([Number], [Name], Credits, [Hours], Active, Cost)
+VALUES ('DMIT-1508', 'Database Fundamentals', 4.5, 90, 1, 800.00)
+
+INSERT INTO StudentCourses(StudentID, CourseNumber, [Year], Term, [Status])
+VALUES  (2000, 'DMIT-1508', 2020, 'SEP', 'E')
+
+-- Let's look at the data in the tables.
+SELECT  StudentID, GivenName, SurName, DateOfBirth, Enrolled
+FROM    Students
+
+SELECT  [Number], [Name], Credits, [Hours]
+FROM   Courses
+
+SELECT  StudentID, [CourseNumber], [Year], FinalMark
+FROM    StudentCourses

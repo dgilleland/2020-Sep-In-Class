@@ -192,3 +192,37 @@ VALUES  (2015, 'DMIT-1508', 2020, 'SEP', 'E')
 
 SELECT * FROM StudentCourses
 */
+
+/* ALTER TABLE Statements - PRACTICE */
+
+-- A) Add column to the Courses table called "SyllabusURL" that is a variable-length string of up to 70 characters. Determine for yourself if it should be NULL or NOT NULL.
+-- B) Add a CHECK constraint to the SyllabusURL that will ensure the value matches a website URL (HTTPS://).
+-- C) One of the functions that we can use in SQL is the GETDATE() function that will return the current datetime. Use this GETDATE() function as the default value for new column in Students called "EnrolledDate".
+
+GO -- end the batch of statements that alter the database
+
+/* CREATE INDEX */
+
+-- Indexes improve the performance of the database when retrieving information. They do this by providing an additional "lookup" table that is sorted by the the indexed column(s).
+
+-- When we create a table with a PRIMARY KEY, then that/those column(s) are given "clustered" indexes. In other words, the data in the database will (by default) be "sorted by" the Primary Key column(s).
+
+-- We can add additional columns as indexes for quick lookup, but those have to be as "Non-Clustered" indexes.
+
+CREATE NONCLUSTERED INDEX IX_Students_Surname
+    ON Students(Surname) -- lookup by last name
+
+-- What should we index in our tables?
+--   - Foreign Key Columns
+--   - Anything else that will frequently be used as
+--     something we either "lookup by" or "sort by"
+CREATE NONCLUSTERED INDEX IX_StudentCourses_StudentID
+    ON StudentCourses(StudentID)
+CREATE NONCLUSTERED INDEX IX_StudentCourses_CourseNumber
+    ON StudentCourses(CourseNumber)
+
+
+/* INDEX Statements - Practice */
+
+-- A) Add an index for the Name column in the Courses table.
+-- B) Add an index for the Year column in the StudentCourses table.

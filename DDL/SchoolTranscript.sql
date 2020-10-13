@@ -143,3 +143,52 @@ CREATE TABLE StudentCourses
         -- Composite Primary Key Constraint
 )
 GO -- Finish the table creation as a batch
+
+-- Modifying Database Table Schemas with ALTER TABLE
+
+-- Consider the fact that there may be data in the table
+-- that you are trying to alter.
+-- If you don't have a default value to apply when
+-- adding your new column, then the new column should
+-- allow NULL values.
+ALTER TABLE Students
+   ADD  Email   varchar(30)     NULL
+
+/* Let's see what our table's data/structure looks like
+-- Here's a quick'n'dirty way to see all the data
+
+SELECT  *   -- * means "all columns" in my table
+FROM    Students
+
+*/
+-- If you include a default with your new column,
+-- you can make that column as Required (NOT NULL).
+ALTER TABLE StudentCourses
+    ADD     Paid    bit     NOT NULL
+        CONSTRAINT DF_StudentCourses DEFAULT (0)
+
+-- Comment out line(s) of code[Ctrl] + [k], [Ctrl] + [c]
+-- SELECT * FROM StudentCourses
+
+ALTER TABLE StudentCourses
+    ADD  OverDue    bit     NULL
+
+-- If I just want to add a constraint, such as a default
+-- to an existing column (say, my OverDue column),
+-- I can adjust the table for only the constraint
+ALTER TABLE StudentCourses
+    ADD CONSTRAINT DF_StudentCourses_OverDue
+        DEFAULT (0) FOR OverDue
+-- Also notice above that I have a slightly different
+-- syntax for the default constraint:
+--  DEFAULT (value) FOR ColumnName
+-- Lastly, note that the new constraint will only apply
+-- for new rows of data for my DEFAULT constraint.
+
+/*
+-- Testing with inserting some data
+INSERT INTO StudentCourses(StudentID, CourseNumber, [Year], Term, [Status])
+VALUES  (2015, 'DMIT-1508', 2020, 'SEP', 'E')
+
+SELECT * FROM StudentCourses
+*/

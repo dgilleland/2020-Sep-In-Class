@@ -34,7 +34,17 @@ IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'
 -- and all object names (Tables, ColumnNames, etc.) as TitleCase.
 
 -- A Table Definition consists of a comma-separated list
--- of Column Definitions and Table Constraints
+-- of Column Definitions and Table Constraints.
+-- Column Definitions can include adding one or more constraints
+-- to the column. It is a good idea to give a name to your
+-- constraints. Use the following prefixes:
+-- - PK - Primary Key
+-- - FK - Foreign Key
+-- - DF - Default
+-- - CK - Check
+-- Additional prefixes on named items in our table definitions
+-- - IX - Indexes
+-- - UX - Unique constraints
 CREATE TABLE Students -- The default "schema" name is [dbo] - a "schema" is a subset of a database
 (
     -- Our column definitions will describe the

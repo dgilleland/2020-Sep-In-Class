@@ -196,8 +196,51 @@ SELECT * FROM StudentCourses
 /* ALTER TABLE Statements - PRACTICE */
 
 -- A) Add column to the Courses table called "SyllabusURL" that is a variable-length string of up to 70 characters. Determine for yourself if it should be NULL or NOT NULL.
+ALTER TABLE Courses
+    ADD SyllabusURL varchar(70) NULL
+/* 
+SELECT * FROM Courses
+INSERT INTO Courses(Number, Name, Credits, Hours, Active, Cost, SyllabusURL)
+VALUES ('HACK-0001', 'White-Hat Hacking', 4.5, 90, 1, 450.00, 'gopher://hack.dev')
+*/
 -- B) Add a CHECK constraint to the SyllabusURL that will ensure the value matches a website URL (HTTPS://).
+ALTER TABLE Courses
+        WITH NOCHECK
+    --  WITH NOCHECK means it will not apply the CHECK
+    --               to the existing data in the table
+    ADD CONSTRAINT CK_Courses_SyllabusURL
+        CHECK (SyllabusURL LIKE 'https://%')
+        --           Match for  'https://DMIT-1508.github.io'
+
+/*
+INSERT INTO Courses(Number, Name, Credits, Hours, Active, Cost, SyllabusURL)
+VALUES ('PROG-0101', 'The NEW Programming Fundamentals', 4.5, 90, 1, 450.00, 'gopher://hack.dev')
+
+I can learn about the table, including constraints using sp_help:
+sp_help Courses
+*/
 -- C) One of the functions that we can use in SQL is the GETDATE() function that will return the current datetime. Use this GETDATE() function as the default value for new column in Students called "EnrolledDate".
+ALTER TABLE Students
+    ADD EnrolledDate    datetime    NOT NULL
+        CONSTRAINT DF_Students_EnrolledDate
+            DEFAULT (GETDATE())
+-- SELECT * FROM Students
+/*
+-- Here's how you can drop constraints and columns:
+ALTER TABLE Students
+    DROP CONSTRAINT DF_Students_EnrolledDate
+ALTER TABLE Students
+    DROP COLUMN EnrolledDate
+-- Here's re-adding the EnrolledDate and constraint as
+-- two separate instructions
+ALTER TABLE Students
+    ADD EnrolledDate    datetime    NOT NULL
+    
+ALTER TABLE Students
+    CONSTRAINT DF_Students_EnrolledDate
+        DEFAULT (GETDATE()) FOR EnrolledDate
+
+*/
 
 GO -- end the batch of statements that alter the database
 

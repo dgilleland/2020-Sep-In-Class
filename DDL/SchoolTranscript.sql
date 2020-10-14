@@ -32,6 +32,9 @@ IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'
 --    Build them in an order that supports the FK constraints
 -- My personal coding convention is to keep all SQL keywords in UPPER CASE except for data types (lower case)
 -- and all object names (Tables, ColumnNames, etc.) as TitleCase.
+
+-- A Table Definition consists of a comma-separated list
+-- of Column Definitions and Table Constraints
 CREATE TABLE Students -- The default "schema" name is [dbo] - a "schema" is a subset of a database
 (
     -- Our column definitions will describe the

@@ -235,7 +235,7 @@ ALTER TABLE Students
 -- two separate instructions
 ALTER TABLE Students
     ADD EnrolledDate    datetime    NOT NULL
-    
+
 ALTER TABLE Students
     CONSTRAINT DF_Students_EnrolledDate
         DEFAULT (GETDATE()) FOR EnrolledDate
@@ -268,4 +268,10 @@ CREATE NONCLUSTERED INDEX IX_StudentCourses_CourseNumber
 /* INDEX Statements - Practice */
 
 -- A) Add an index for the Name column in the Courses table.
+CREATE NONCLUSTERED INDEX IX_Courses_Name
+    ON Courses(Name) -- Name is a column name
 -- B) Add an index for the Year column in the StudentCourses table.
+CREATE NONCLUSTERED INDEX IX_StudentCourses_Year
+    ON StudentCourses([Year])
+
+GO -- End the batch

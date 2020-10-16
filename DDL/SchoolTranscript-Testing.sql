@@ -29,3 +29,10 @@ FROM   Courses
 
 SELECT StudentID, CourseNumber, [Year], Term, [Status]
 FROM   StudentCourses
+
+-- Test of Bad data
+INSERT INTO StudentCourses(StudentID, CourseNumber, [Year], Term, [Status])
+VALUES (2015, 'DMIT-1508', 2020, 'SEP', 'Q') -- should be rejected
+
+INSERT INTO StudentCourses(StudentID, CourseNumber, [Year], Term, [Status])
+VALUES (10, 'DMIT-1508', 2020, 'SEP', 'A') -- should be rejected

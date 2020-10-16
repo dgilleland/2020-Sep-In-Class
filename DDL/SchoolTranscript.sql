@@ -160,3 +160,76 @@ CREATE TABLE StudentCourses
 -- Naming convention for constraints:
 -- PREFIX_Tablename_ColumnName  <- PK, CK, DF
 -- FK_TableName_RelatedTableName
+GO -- Finish the table creation as a batch
+
+/* Editing Table Structure AFTER data exists
+SELECT  StudentID, GivenName, Surname, DateOfBirth, Enrolled
+FROM    Students
+
+SELECT [Number], [Name], Credits, [Hours], Active, Cost
+FROM   Courses
+
+SELECT StudentID, CourseNumber, [Year], Term, [Status]
+FROM   StudentCourses
+*/
+-- Modifying Database Table Schemas with ALTER TABLE
+
+-- Consider the fact that there may be data in the table
+-- that you are trying to alter.
+-- If you don't have a default value to apply when
+-- adding your new column, then the new column should
+-- allow NULL values.
+ALTER TABLE Students
+   ADD  Email   varchar(30)     NULL
+-- Adding a column
+/*
+-- Here's a quick'n'dirty way to see all the data
+
+SELECT  * -- * means "all columns" in my table
+FROM    Students
+*/
+
+-- New requirement: We need a column called "Paid" on
+-- the StudentCourses table. This has to be a Required
+-- column (NOT NULL).
+-- We need a DEFAULT value for existing rows of data.
+ALTER TABLE StudentCourses
+    ADD     Paid    bit     NOT NULL
+        CONSTRAINT DF_StudentCourses_Paid DEFAULT (0)
+-- Comment out line(s) of code: 
+--   [Ctrl] + [k], [Ctrl] + [c]
+-- Un-comment:
+--   [Ctrl] + [k], [Ctrl] + [u]
+-- SELECT * FROM StudentCourses
+
+-- Practice: Add a column "OverDue" to the 
+-- StudentCourses table as a bit. (Optional)
+ALTER TABLE StudentCourses
+    ADD     OverDue bit     NULL
+
+-- New change request: Have a default for the
+-- "OverDue" column: 0
+ALTER TABLE StudentCourses
+    ADD CONSTRAINT DF_StudentCourses_OverDue
+        DEFAULT (0) FOR OverDue
+-- Also notice above that I have a slightly different
+-- syntax for the default constraint:
+--  DEFAULT (value) FOR ColumnName
+-- Lastly, not that the new constraint will only apply for
+-- new rows of data for my DEFAULT constraint.
+/*
+-- Testing with inserting some data
+INSERT INTO StudentCourses(StudentID, CourseNumber, [Year], Term, [Status])
+VALUES (2015, 'DMIT-1508', 2020, 'SEP', 'E')
+
+SELECT * FROM StudentCourses
+SELECT * FROM Students
+*/
+
+/* ALTER TABLE Statements - PRACTICE */
+
+-- A) Add column to the Courses table called "SyllabusURL" that is a variable-length string of up to 70 characters. Determine for yourself if it should be NULL or NOT NULL.
+-- B) Add a CHECK constraint to the SyllabusURL that will ensure the value matches a website URL (HTTPS://).
+-- C) One of the functions that we can use in SQL is the GETDATE() function that will return the current datetime. Use this GETDATE() function as the default value for new column in Students called "EnrolledDate".
+
+GO -- end the batch of statements that alter the database

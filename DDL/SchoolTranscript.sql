@@ -233,3 +233,25 @@ SELECT * FROM Students
 -- C) One of the functions that we can use in SQL is the GETDATE() function that will return the current datetime. Use this GETDATE() function as the default value for new column in Students called "EnrolledDate".
 
 GO -- end the batch of statements that alter the database
+
+/* CREATE INDEX */
+
+CREATE NONCLUSTERED INDEX IX_Students_Surname
+    ON Students(Surname) -- lookup by last name
+-- What should we index in our tables?
+--  - Foreign Key columns
+--  - Anything else that will frequently be use as something we either "lookup by" or "sort by"
+
+CREATE NONCLUSTERED INDEX IX_Students_Surname
+    ON Students(StudentID)
+CREATE NONCLUSTERED INDEX IX_Students_Surname
+    ON Students(CourseNumber)
+
+/* INDEX Statements - Practice*/
+-- SELECT * FROM Students
+CREATE NONCLUSTERED INDEX IX_Courses_Surname
+    ON Courses(Name)
+CREATE NONCLUSTERED INDEX IX_StudentCourses_Surname
+    ON StudentCourses([Year])
+
+GO

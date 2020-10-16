@@ -229,7 +229,70 @@ SELECT * FROM Students
 /* ALTER TABLE Statements - PRACTICE */
 
 -- A) Add column to the Courses table called "SyllabusURL" that is a variable-length string of up to 70 characters. Determine for yourself if it should be NULL or NOT NULL.
+ALTER TABLE Courses
+    ADD SyllabusURL varchar(70) NULL
+/* 
+SELECT * FROM Courses
+INSERT INTO Courses(Number, Name, Credits, Hours, Active, Cost, SyllabusURL)
+VALUES ('HACK-0001', 'White-Hat Hacking', 4.5, 90, 1, 450.00, 'gopher://hack.dev')
+*/  
 -- B) Add a CHECK constraint to the SyllabusURL that will ensure the value matches a website URL (HTTPS://).
+ALTER TABLE Courses
+        WITH NOCHECK
+    --  WITH NOCHECK means it will not apply the CHECK
+    --               to the existing data in the table
+    ADD CONSTRAINT CK_Courses_SyllabusURL
+        CHECK (SyllabusURL LIKE 'https://%')
+        --      Match for       'https://DMIT-1508.github.io'
+/*
+INSERT INTO Courses(Number, Name, Credits, Hours, Active, Cost, SyllabusURL)
+VALUES ('HACK-1705', 'Gray-Hat Hacking', 4.5, 90, 1, 450.00, 'https://hack.dev')
+INSERT INTO Courses(Number, Name, Credits, Hours, Active, Cost, SyllabusURL)
+VALUES ('SHIP-1705', 'Warp Drive Engineering', 4.5, 90, 1, 450.00, 'https://ST.com')
+*/
+
 -- C) One of the functions that we can use in SQL is the GETDATE() function that will return the current datetime. Use this GETDATE() function as the default value for new column in Students called "EnrolledDate".
+ALTER TABLE Students
+    ADD EnrolledDate    datetime    NOT NULL
+        CONSTRAINT DF_Students_EnrolledDate
+            DEFAULT (GETDATE())
+/*
+SELECT * FROM Students
+INSERT INTO Students(GivenName, Surname, DateOfBirth, Enrolled)
+VALUES ('Gary', 'Montgomery', 'Feb 29, 2000', 1)
+*/
 
 GO -- end the batch of statements that alter the database
+
+/* CREATE INDEX */
+
+-- Indexes improve the performance of the database when retrieving information. They do this by providing an additional "lookup" table that is sorted by the indexed column(s).
+
+-- When we create a table with a PRIMARY KEY, then that/those column(s) are given "clustered" indexes. In other words, the data in the database will (by default) be "sorted by" the Primary Key column(s).
+
+-- We can add additional columns as indexes for quick lookup, but those have to be as "Non-Clustered" indexes.
+
+CREATE NONCLUSTERED INDEX IX_Students_Surname
+    ON Students(Surname) -- lookup by last name
+
+
+-- What should we index in our tables?
+--   - Foreign Key Columns
+--   - Anything else that will frequently be used as
+--     something we either "lookup by" or "sort by"
+CREATE NONCLUSTERED INDEX IX_StudentCourses_StudentID
+    ON StudentCourses(StudentID)
+CREATE NONCLUSTERED INDEX IX_StudentCourses_CourseNumber
+    ON StudentCourses(CourseNumber)
+
+
+/* INDEX Statements - Practice */
+
+-- A) Add an index for the Name column in the Courses table.
+CREATE NONCLUSTERED INDEX IX_Courses_Name
+    ON Courses(Name) -- Name is a column name
+-- B) Add an index for the Year column in the StudentCourses table.
+CREATE NONCLUSTERED INDEX IX_StudentCourses_Year
+    ON StudentCourses([Year])
+-- SELECT * FROM Students
+GO -- End the batch

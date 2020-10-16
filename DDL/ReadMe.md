@@ -11,6 +11,13 @@
 
 ----
 
+## Demo DDL
+
+![ESP](./ESP-Merged-PhysicalERD.png)
+
+![SchoolTranscript](./SchoolTranscript.png)
+
+
 ## Notes on Operators and Naming Standards
 
 ```sql

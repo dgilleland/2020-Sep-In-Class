@@ -1,7 +1,6 @@
 <Query Kind="Program">
   <Connection>
-    <ID>5265d1f5-021e-4878-9587-a78d45e7824e</ID>
-    <Persist>true</Persist>
+    <ID>05a2444e-14ea-4451-ad3d-3398e9ff7898</ID>
     <Server>.</Server>
     <Database>WestWind</Database>
   </Connection>
@@ -21,9 +20,11 @@ void Main()
     var productCount = Products.Count();
     productCount.Dump("Total number of products");
     // The .Count() method can also take a "filter" expression
-    productCount = Products.Count(item => item.ProductName.Contains("Chef"));
+    productCount = Products.Count(thing => thing.ProductName.Contains("Chef"));
+	// => is called the Lambda operator
+	// params => return_expression
     productCount.Dump("Number of products with Chef in the name");
-    // A "Lambda Expression" is one that acts as an "ad-hoc" method is passed
+    // A "Lambda Expression" is one that acts as an "ad-hoc" or "anonymous" method is passed
     // into the .Count() method.
     // .Count(item => item.ProductName.Contains("Chef"))
     // can be read as "Count each item such that (=>) I only include items where
@@ -32,11 +33,12 @@ void Main()
     // .Sum(), .Average(), .Max(), .Min()
     var orderTotals = from details in OrderDetails
                       // Calculate the line-item total, less the discount
-                      select details.UnitPrice * details.Quantity
+                      select details.UnitPrice * details.Quantity // Qty * Price
                            - (details.UnitPrice * (decimal)details.Discount * details.Quantity);
     orderTotals.Dump("Line-item totals in Order Details");
+	orderTotals.Count().Dump("The number of OrderDetail line items");
     var grandTotal = orderTotals.Sum();
-    grandTotal.Dump("Total sales to-date");
+    grandTotal.ToString("C").Dump("Total sales to-date");
     var result = orderTotals.Average();
     result.Dump("The average line-item amount");
     result = orderTotals.Max(); 

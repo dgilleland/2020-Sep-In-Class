@@ -1,7 +1,6 @@
 <Query Kind="Expression">
   <Connection>
-    <ID>5265d1f5-021e-4878-9587-a78d45e7824e</ID>
-    <Persist>true</Persist>
+    <ID>05a2444e-14ea-4451-ad3d-3398e9ff7898</ID>
     <Server>.</Server>
     <Database>WestWind</Database>
   </Connection>
@@ -15,8 +14,17 @@ select new
     OrderId = sale.OrderID,
     Company = sale.Customer.CompanyName,
     FreightCharge = sale.Freight,
+	LineItemCount = sale.OrderDetails.Count(), // Add in another line to calculate the LineItemCount
     Subtotal = sale.OrderDetails.Sum(lineItem => lineItem.Quantity * lineItem.UnitPrice),
     DiscountSubtotal = 
         sale.OrderDetails.Sum(lineItem =>
-                              lineItem.Quantity * lineItem.UnitPrice * (decimal)lineItem.Discount)
+                              lineItem.Quantity * lineItem.UnitPrice * (decimal)lineItem.Discount),
+	LineItems = from item in sale.OrderDetails
+	            select new
+				{
+					Name = item.Product.ProductName,
+					Qty = item.Quantity,
+					Price = item.UnitPrice,
+					Discount = item.Discount
+				}
 }

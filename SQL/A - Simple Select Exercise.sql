@@ -3,6 +3,20 @@
 USE [A01-School]
 GO
 
+/* SELECT Statement in SQL
+
+The purpose of the SELECT statement in SQL is to get or retrieve a copy
+of data from our database tables.
+
+SELECT clause     - (Required) Identify the columns/data we want to retrieve
+FROM clause       - Identify the table(s) to look at for the data
+WHERE clause      - Filter the results of the search/query
+GROUP BY clause   - Re-organize the rows into groups for some aggregation
+HAVING clause     - Filter the result of our grouping
+ORDER BY clause   - Sort our final results
+
+*/
+
 -- Simple Select, without any other clauses
 SELECT  'Dan', 'Gilleland'
 
@@ -11,7 +25,7 @@ SELECT  'Dan' + ' ' + 'Gilleland', 18 * 52, '5' + '10'
 
 -- Specify a column name with some hard-code/calculated values
 SELECT  'Dan' + ' ' + 'Gilleland' AS 'Instructor',
-        19 * 52 AS 'Weeks at the job'
+        20.75 * 52 AS 'Weeks at the job'
 
 -- Let's use the SELECT statement with database tables
 
@@ -22,15 +36,17 @@ FROM    Club
 
 -- The * can be used to indicate all of the columns. But DO NOT DO THIS, or your instructor
 -- WILL deduct marks EVERY TIME you do this.
-SELECT  *
+SELECT  *  -- Quick'n'Dirty
 FROM    Club
 
 -- Notice that when selecting from an existing table, when we identify which columns we want to
 -- show, then those column names are used as the column title for the results table.
 -- The AS keyword  in the SELECT clause is used to assign a title to the column in the results table
-SELECT  ClubId AS 'ID', ClubName
+SELECT  ClubId AS 'ID', ClubName -- Giving a column alias does NOT change
+                                 -- the column name of the underlying table
 FROM    Club
 
+-- Apply to when you are working with Sql Server Management Studio (SSMS)
   -- Pro-Tip: Press [ctrl] + r to toggle the results window
   -- Pro-Tip: If you write the FROM clause before specifying the columns,
   --            you will get Intellisense help on the column names
@@ -49,9 +65,11 @@ FROM    Student
 --      and sort the results by the last name
 SELECT    FirstName, LastName
 FROM      Student
-ORDER BY  LastName
+ORDER BY  LastName -- by default sorting is in ascending order
+                  --  DESC
 -- 2.d. Select the first and last names of all the students,
 --      and sort the results by the last name, then by the first name
+--      and sort the result by first name within last name
 SELECT    FirstName, LastName
 FROM      Student
 ORDER BY  LastName, FirstName
@@ -68,7 +86,14 @@ SELECT CourseID, CourseName, CourseHours, MaxStudents, CourseCost
 FROM   Course
 WHERE  CourseID = 'DMIT101'
 
+-- 4.a Select the course information for 'DMIT142'
+SELECT CourseID, CourseName, CourseHours, MaxStudents, CourseCost
+FROM   Course
+WHERE  CourseID = 'DMIT142'
+
+
 --5. Select the Staff names who have job positionID of 3
+--   \      display       /          \  filter/where   /
 SELECT FirstName, LastName
        --,PositionID -- Press [ctrl] + k, then [ctrl] + u to un-comment
 FROM   Staff
@@ -79,8 +104,9 @@ SELECT  PositionID, PositionDescription
 FROM    Position
 
 --6.    Select the Course Names whose course hours are less than 96
+--                \  display  /       \     filter                /
 SELECT  C.CourseName
-FROM    Course C -- I can have an alias to the table name
+FROM    Course AS C -- I can have an alias to the table name
 WHERE   C.CourseHours < 96
 -- Type with me the following...
 SELECT  ST.LastName, ST.DateHired, ST.DateReleased
@@ -92,6 +118,9 @@ FROM    Staff
 WHERE   Staff.DateReleased IS NOT NULL
 -- NOTE: You can't mix the use of a table alias with the full name of the table
 
+SELECT  S.FirstName, S.LastName
+FROM    Student AS S -- I can use an alias for my table
+
 -- 7.   Select the studentID's, CourseID and mark where the Mark is between 70 and 80
 SELECT  StudentID, CourseId, Mark
 FROM    Registration
@@ -99,33 +128,40 @@ WHERE   Mark BETWEEN 70 AND 80 -- BETWEEN is inclusive
 --WHERE   Mark >= 70 AND Mark <= 80
 
 -- 7.a. Select the StudentIDs where the withdrawal status is null
+--                 \ display/           \    filter     /
 SELECT  StudentID
         --, WithdrawYN
 FROM    Registration
 WHERE   WithdrawYN IS NULL -- we use IS NULL instead of = NULL, because = NULL won't work.
 
 -- 7.b. Select the student ids of students who have withdrawn from a course
+--                \ display  /                      \     filter           /
 SELECT  StudentID
+        -- ,WithdrawYN
 FROM    Registration
 WHERE   WithdrawYN = 'Y'
 
 --8.    Select the studentID's, CourseID and mark where the Mark is
 --      between 70 and 80 and the courseID is DMIT223 or DMIT168
 SELECT  R.StudentID, R.CourseId, R.Mark
-FROM    Registration R
+FROM    Registration AS R
 WHERE   R.Mark BETWEEN 70 AND 80
   AND   (R.CourseId = 'DMIT223' OR R.CourseId = 'DMIT168')
+  --    I use parenthesis to force the OR operation to happen first
 -- alternate answer to #8
 SELECT  R.StudentID, R.CourseId, R.Mark
-FROM    Registration R
+FROM    Registration AS R
 WHERE   R.Mark BETWEEN 70 AND 80
   AND   R.CourseId IN ('DMIT223', 'DMIT168') -- The IN keyword allows us to have a list of values
                                              -- that will be checked in a OR manner.
 
 --8.a. Select the studentIDs, CourseID and mark where the Mark is 80 and 85
+--                \     display               /           \   filter      /
 SELECT  R.StudentID, R.CourseId, R.Mark
 FROM    Registration R
 WHERE   R.Mark = 80 OR R.Mark = 85
+-- WHERE   R.Mark = 80 AND R.Mark = 85
+-- The WHERE clause examines each row - Mark can't have 2 values at the same time
 
 -- The next two questions introduce the idea of "wildcards" and pattern matching in the WHERE clause
 -- _ is a wildcard for a single character
@@ -138,6 +174,7 @@ WHERE   LastName LIKE 'S%'
 
 --10. Select Coursenames whose CourseID have a 1 as the fifth character
 SELECT  CourseName
+      -- , CourseID
 FROM    Course
 WHERE   CourseID LIKE '____1%' -- four underscores, 1, %
 --                     DMIT158

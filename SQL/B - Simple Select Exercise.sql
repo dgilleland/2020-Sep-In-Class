@@ -36,8 +36,9 @@ SELECT  COUNT(StaffID) AS 'Staff Count' -- It's common to use the PK as the colu
 FROM    Staff
 
 -- 3.d  Do a count of the people in the Staff table who are no longer working here
---      Refresh your memory about all the data in the Staff table
-SELECT  * FROM Staff
+--      Refresh your memory about all the data in the Staff table; highlight and run the
+--      select statement in the comment below to see what's in that table.
+--      SELECT  * FROM Staff
 SELECT  COUNT(DateReleased) AS 'Retired Staff'
 FROM    Staff
 

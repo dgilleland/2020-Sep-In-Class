@@ -266,7 +266,6 @@ GO -- end the batch of statements that alter the database
 
 /* CREATE INDEX */
 
-<<<<<<< HEAD
 CREATE NONCLUSTERED INDEX IX_Students_Surname
     ON Students(Surname) -- lookup by last name
 -- What should we index in our tables?
@@ -286,7 +285,6 @@ CREATE NONCLUSTERED INDEX IX_StudentCourses_Surname
     ON StudentCourses([Year])
 
 GO
-=======
 -- Indexes improve the performance of the database when retrieving information. They do this by providing an additional "lookup" table that is sorted by the indexed column(s).
 
 -- When we create a table with a PRIMARY KEY, then that/those column(s) are given "clustered" indexes. In other words, the data in the database will (by default) be "sorted by" the Primary Key column(s).
@@ -317,4 +315,3 @@ CREATE NONCLUSTERED INDEX IX_StudentCourses_Year
     ON StudentCourses([Year])
 -- SELECT * FROM Students
 GO -- End the batch
->>>>>>> 0fe10c808d53913901b97539401a5f10ac137939

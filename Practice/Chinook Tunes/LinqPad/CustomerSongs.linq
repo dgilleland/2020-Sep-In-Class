@@ -11,13 +11,22 @@
 
 from line in InvoiceLines
 where line.Invoice.CustomerId == 10
-//select line
+//orderby line.Track.Name
+//select new
+//{
+//	Name = line.Track.Name,
+//	Time = line.Track.Milliseconds / 1000,
+//	Artist = line.Track.Album.Artist.Name,
+//	Album = line.Track.Album.Title
+//}
 group line by line.Track.Album
-.Artist
+//.Artist
 into albumTracks
 select new
 {
-	albumTracks.Key,
+	//albumTracks.Key,
+	//Artists = albumTracks.Key.Name,
+	Album = albumTracks.Key.Title + "(by " + albumTracks.Key.Artist.Name + ")",
 	//Album = albumTracks.Key.Title,
 	//Artist = albumTracks.Key.Artist.Name,
 	Tracks = from item in albumTracks

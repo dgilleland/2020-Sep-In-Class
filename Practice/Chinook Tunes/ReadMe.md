@@ -24,5 +24,20 @@ We would have to build queries for the various views of the songs. Create LINQ q
 
 When creating the queries for the song details, we will need to have View Model classes to represent the data that we will send to the Presentation Layer of our application. Consider making those LinqPad queries in the *C# Program* format so you can use them directly instead of using anonymous methods. **This will help you prepare for applying the LinqPad code to your Visual Studio solution.**
 
+Here's some sample data that comes back when you look for the song data for the customer ID of `10`.
+
+> All Tracks
+> 
+> ![All](./LinqPad/Tracks.png)
+
+You will need grouping for the other result sets. Treat these as different queries.
+
+> By Album
+> 
+> ![By Album](./LinqPad/Tracks-By-Album.png)
+
+> By Artist
+> 
+> ![By Artist](./LinqPad/Tracks-By-Artists.png)
 
 ----

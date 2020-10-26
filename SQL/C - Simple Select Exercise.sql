@@ -41,14 +41,17 @@ ORDER BY COUNT(PaymentTypeID) ASC
 
 -- 3. Select the average Mark for each studentID. Display the StudentId and their average mark
 -- TODO: Student Answer Here....
+SELECT StudentID,
+       AVG(Mark) AS 'Avg Mark'
+FROM   Registration
+GROUP BY StudentID
 
 -- 4. Select the same data as question 3 but only show the studentID's and averages that are > 80
 SELECT StudentID,
        AVG(Mark) AS 'Avg Mark'
 FROM   Registration
 GROUP BY StudentID
--- The HAVING clause is where we do filtering of Aggregate information
-HAVING AVG(Mark) > 80
+HAVING AVG(Mark) > 80  -- The HAVING clause is where we do filtering of Aggregate information
 
 -- 5. How many students are from each city? Display the City and the count.
 SELECT  City,
@@ -74,6 +77,11 @@ GROUP BY PaymentTypeID
 
 -- 8. How many students are there in each club? Show the clubID and the count
 -- TODO: Student Answer Here....
+-- ACM: 3, CHESS: 1, CSS: 5, NASA: 1
+SELECT  ClubID,
+        COUNT(StudentID) AS 'Students'
+FROM    Activity
+GROUP BY ClubID
 
 -- Check your answer by manually grouping students by their club membership and counting them
 SELECT  ClubId, StudentID
@@ -81,14 +89,39 @@ FROM    Activity
 
 -- 9. Which clubs have 3 or more students in them?
 -- TODO: Student Answer Here....
+-- ACM, and CSS
+SELECT  ClubID
+        -- COUNT(StudentID) AS 'Students'
+FROM    Activity
+GROUP BY ClubID
+HAVING COUNT(StudentID) >= 3
 
+--10. Grouping the courses by the number of hours in each course, what is the average cost of those courses? Display 
+-- the course hours and the average cost.
+SELECT  CourseHours AS 'Hours per Course',
+        AVG(CourseCost) AS 'Average Cost'
+FROM    Course
+GROUP BY CourseHours
 
---10. Grouping the courses by the number of hours in each course, what is the average cost of those courses? Display the course hours and the average cost.
-
---11. Which teachers are getting the best results from the courses they teach? Display the staff ID and the average course mark, sorted by the course mark from highest to lowest.
+--11. Which teachers are getting the best results from the courses they teach? Display the staff ID and the average 
+-- course mark, sorted by the course mark from highest to lowest.
+SELECT AVG(Mark) AS 'Average Mark',
+        StaffID AS 'Teacher ID'
+FROM   Registration
+GROUP BY StaffID
+ORDER BY AVG(Mark) DESC
 
 --12. How many male and female students do we have?
+-- 6 Female, 12 male
+SELECT COUNT(Gender) AS 'Students'
+FROM Student
+GROUP BY Gender
 
 --13. Show the average balance owing for male and female students.
+SELECT COUNT(Gender) AS 'Students',
+        AVG(BalanceOwing) AS 'Money Owed'
+FROM Student
+GROUP BY Gender
 
---14. How many students participate in school clubs? Display the club id and the number of students. (Hint: You should be using the Activity table for this question.)
+--14. How many students participate in school clubs? Display the club id and the number of students. (Hint: You should
+-- be using the Activity table for this question.)

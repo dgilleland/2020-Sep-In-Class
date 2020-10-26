@@ -30,7 +30,7 @@ IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'
 
 -- Create Tables...
 --    Build them in an order that supports the FK constraints
--- My personal coding convention is to keep all SQL keywords in UPPER CASE except for data types (lower case)
+-- (Dan Gilleland:) My personal coding convention is to keep all SQL keywords in UPPER CASE except for data types (lower case)
 -- and all object names (Tables, ColumnNames, etc.) as TitleCase.
 
 -- A Table Definition consists of a comma-separated list

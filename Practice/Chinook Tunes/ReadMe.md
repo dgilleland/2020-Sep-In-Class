@@ -40,4 +40,22 @@ You will need grouping for the other result sets. Treat these as different queri
 > 
 > ![By Artist](./LinqPad/Tracks-By-Artists.png)
 
+
+### Part 2 - Transfer to BLL
+
+Once the LinqPad queries are giving you the data you want, apply that code to your BLL.
+
+- Add the View Model classes designed in LinqPad to your View Models folder in the **ChinookTunes** project.
+- Create a BLL class called **CustomerController** that has methods to do the following
+  - List all the customer
+  - Get a summary of counts for the customer's purchased songs (all tracks, distinct album count, distinct artist count)
+  - List all customer tracks
+  - List all customer tracks by album
+  - List all customer tracks by artist
+- Transfer your LinqPad code to the BLL methods to retrieve the requested data. Remember that you will need to use your `DbContext` class for the LINQ query.
+
+### Part 3 - Build the UI
+
+
+
 ----

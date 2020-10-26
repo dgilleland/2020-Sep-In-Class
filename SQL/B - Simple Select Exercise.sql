@@ -6,6 +6,7 @@ Use [A01-School]
 GO
 
 --1.	Select the average Mark from all the Marks in the registration table
+-- SELECT * FROM Registration - view raw data
 SELECT  AVG(Mark) AS 'Average Mark'
 FROM    Registration
 

@@ -25,20 +25,23 @@ FROM    Student AS S
 SELECT  DISTINCT -- The DISTINCT keyword will remove duplate rows from the results
         FirstName + ' ' + LastName AS 'Staff Full Name',
         CourseId
-FROM    Staff S
-    INNER JOIN Registration R
+FROM    Staff AS S
+    INNER JOIN Registration AS R
         ON S.StaffID = R.StaffID
 ORDER BY 'Staff Full Name', CourseId
 
 --3.	Select all the Club ID's and the Student full names that are in them
 -- TODO: Student Answer Here...
+SELECT  ClubId, FirstName + ' ' + LastName AS 'Student Full Name'
+FROM    Activity AS A
+    INNER JOIN Student AS S ON A.StudentID = S.StudentID
 
 --4.	Select the Student full name, courseID's and marks for studentID 199899200.
 SELECT  S.FirstName + ' ' + S.LastName AS 'Student Name',
         R.CourseId,
         R.Mark
-FROM    Registration R
-    INNER JOIN Student S
+FROM    Registration AS R
+    INNER JOIN Student AS S
             ON S.StudentID = R.StudentID
 WHERE   S.StudentID = 199899200
 

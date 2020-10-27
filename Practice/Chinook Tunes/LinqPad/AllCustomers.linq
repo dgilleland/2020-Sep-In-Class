@@ -10,7 +10,7 @@
 </Query>
 
 from person in Customers
-select new // SelectionItem
+select new // SelectionItem // my ViewModel class for drop-downs
 {
 	IDValue = person.CustomerId.ToString(),
 	DisplayText = person.FirstName +  " " + person.LastName

@@ -12,15 +12,15 @@
 from line in InvoiceLines
 where line.Invoice.CustomerId == 10
 orderby line.Track.Album.Title
-group line by line.Track.Album
+group line by line.Track.Album // by Album
 into albumTracks
-select new
+select new // some ViewModel class
 {
 	Album = albumTracks.Key.Title,
 	Artist = albumTracks.Key.Artist.Name, // optional, possibly useful
 	Tracks = from item in albumTracks
 			 orderby item.Track.Name
-			 select new
+			 select new // some ViewModel class
 			 {
 			 	Track = item.Track.Name,
 				 RunningTime = item.Track.Milliseconds / 1000

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BLL\AlbumManagement.cs" />
     <Compile Include="BLL\ContactController.cs" />
+    <Compile Include="BLL\CustomerController.cs" />
     <Compile Include="BLL\SalesController.cs" />
     <Compile Include="BLL\TrackManagement.cs" />
     <Compile Include="Entities\Album.cs" />

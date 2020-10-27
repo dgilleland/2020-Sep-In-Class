@@ -10,7 +10,7 @@
 </Query>
 
 from line in InvoiceLines
-where line.Invoice.CustomerId == 10
+where line.Invoice.CustomerId == 10 // this hard-coded value will be replaced with a variable
 orderby line.Track.Name
 select new
 {

@@ -9,7 +9,7 @@ FROM    Staff AS S
     INNER JOIN Position AS P ON P.PositionID = S.PositionID
 GROUP BY PositionDescription 
  
--- Out of curiosity, what are all the position names?
+-- Out of curiosity, what are ALL the position names?
 SELECT  PositionDescription FROM Position -- There are 7 positions...
 -- but I only see 6 positions in the answer to Q1.
 -- That's because I'm using an INNER JOIN, and data has to be present
@@ -21,7 +21,7 @@ SELECT  CourseName, AVG(Mark) AS 'Average Mark'
 FROM    Registration AS R
     INNER JOIN Course AS C ON R.CourseId = C.CourseId
 GROUP BY CourseName
-ORDER BY 'Average Mark' DESC
+ORDER BY 'Average Mark' DESC -- You can use the Column Name for sorting
 
 --3. How many payments where made for each payment type. Display the PaymentTypeDescription and the count.
  -- TODO: Student Answer Here... 

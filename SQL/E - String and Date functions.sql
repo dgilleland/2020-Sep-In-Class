@@ -16,11 +16,32 @@ GO
     ORDER BY 1 -- sorted by the first column
 
     -- SUBSTRING
-    SELECT SUBSTRING('Hello World', 1, 2)
+    SELECT SUBSTRING('Hello World', 1, 2) -- 1 is the start position
+                                          -- 2 is the # characters
+    --               'Hello World'
+    -- Index          12345678911
+    --                         01
+    --
+    --               'He'
+
     SELECT SUBSTRING('To be or not to be', 10, 3)
 
-    -- CHARINDEX
+    -- CHARINDEX - The first index position of specific character(s)
+    SELECT CHARINDEX(' ', 'Hello World')
+    SELECT CHARINDEX('l', 'Hello World')
+
+    /* When working with any kind of function, it can be helpful to understand
+     * how expressions are "evaluated" by the computer/DBMS.
+     */
+    -- Imagine you wanted to get the first complete word in a string
+    --    |     An expression of string concatenation and function calls     |
+    --    |                                                                  |
     SELECT '[' + LEFT('Hello World', CHARINDEX(' ', 'Hello World') - 1) + ']'
+    --                               \             6             /
+    --                                            \         5        /
+    --          \LEFT('Hello World',                         5        )/
+    --           \             "Hello"                                /
+    --     \                "[Hello]"                                      /
 
     -- REVERSE
     SELECT REVERSE('Dan')
@@ -80,7 +101,7 @@ SELECT  DATEDIFF(dd, 'Jan 1, 2000', GETDATE())
 SELECT  DATENAME(mm, Birthdate) AS 'Month Name',
         COUNT(1) AS 'Number of Students'
 FROM    Student
-GROUP BY DATENAME(mm, Birthdate)
+GROUP BY DATENAME(mm, Birthdate) -- To group by the month
 
 -- 4. Select the Names of all the students born in December.
 SELECT  FirstName, LastName
@@ -95,16 +116,20 @@ FROM    Registration R
 WHERE   Mark IS NOT NULL
   AND   LEFT(Semester, 4) = 2004
 
--- 6. select last three characters of all the courses
+-- 6. Select the last three characters of all the course IDs in ascending order
+-- TODO: Student Answer Here...
 
 
 -- 7. Select the characters in the position description from characters 8 to 13 for PositionID 5
+-- TODO: Student Answer Here...
 
 
 -- 8. Select all the Student First Names as upper case.
+-- TODO: Student Answer Here...
 
 
 -- 9. Select the First Names of students whose first names are 3 characters long.
+-- TODO: Student Answer Here...
 
 
 /* ************************************************

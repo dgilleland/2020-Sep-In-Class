@@ -11,12 +11,18 @@ FROM    Student -- Start the FROM statement by identifying one of the tables you
         ON Student.StudentID = Registration.StudentID
 
 --1.a. Select Student full names, the course ID and the course name that the students are registered in.
+-- Column Aliases are identified in the SELECT clause, because that's where we
+-- identify the data we want to retrieve
 SELECT  FirstName + ' ' + LastName AS 'FullName',
-        C.CourseId,
+        C.CourseId, -- Identify the Course table to use for the column CourseId
         CourseName
-FROM    Student AS S
+-- Table Aliases are identified in the FROM clause, because that's where we
+-- identify the tables we are using
+FROM    Student AS S -- Table Alias allows a simple reference to the Table Name
     INNER JOIN Registration AS R
         ON S.StudentID = R.StudentID -- ON helps us identify MATCHING data
+    -- Match up the data where the Student's StudentID is equal to the Registration's
+    -- StudentID
     INNER JOIN Course AS C
         ON R.CourseId = C.CourseId
 
@@ -25,8 +31,8 @@ FROM    Student AS S
 SELECT  DISTINCT -- The DISTINCT keyword will remove duplate rows from the results
         FirstName + ' ' + LastName AS 'Staff Full Name',
         CourseId
-FROM    Staff S
-    INNER JOIN Registration R
+FROM    Staff AS S
+    INNER JOIN Registration AS R
         ON S.StaffID = R.StaffID
 ORDER BY 'Staff Full Name', CourseId
 
@@ -37,9 +43,10 @@ ORDER BY 'Staff Full Name', CourseId
 SELECT  S.FirstName + ' ' + S.LastName AS 'Student Name',
         R.CourseId,
         R.Mark
-FROM    Registration R
-    INNER JOIN Student S
+FROM    Registration AS R
+    INNER JOIN Student AS S
             ON S.StudentID = R.StudentID
+--          ON R.StudentID = S.StudentID -- Both ways work
 WHERE   S.StudentID = 199899200
 
 --5.	Select the Student full name, course names and marks for studentID 199899200.

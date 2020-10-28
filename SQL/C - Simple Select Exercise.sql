@@ -125,3 +125,7 @@ GROUP BY Gender
 
 --14. How many students participate in school clubs? Display the club id and the number of students. (Hint: You should
 -- be using the Activity table for this question.)
+SELECT  ClubID
+        , COUNT(StudentID) AS 'Students'
+FROM    Activity
+GROUP BY ClubID

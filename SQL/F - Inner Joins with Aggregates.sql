@@ -7,7 +7,7 @@ SELECT  PositionDescription,                    --  <-- non-aggregate
         COUNT(S.StaffID) AS 'Number of Staff'   --  <-- aggregate
 FROM    Staff AS S
     INNER JOIN Position AS P ON P.PositionID = S.PositionID
-GROUP BY PositionDescription 
+GROUP BY PositionDescription --- <-- list all the non-aggregates
  
 -- Out of curiosity, what are all the position names?
 SELECT  PositionDescription FROM Position -- There are 7 positions...
@@ -21,7 +21,7 @@ SELECT  CourseName, AVG(Mark) AS 'Average Mark'
 FROM    Registration AS R
     INNER JOIN Course AS C ON R.CourseId = C.CourseId
 GROUP BY CourseName
-ORDER BY 'Average Mark' DESC
+ORDER BY 'Average Mark' DESC -- I can reference a sort column by the column name
 
 --3. How many payments where made for each payment type. Display the PaymentTypeDescription and the count.
  -- TODO: Student Answer Here... 

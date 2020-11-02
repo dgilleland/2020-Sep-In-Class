@@ -4,6 +4,10 @@
 USE [A01-School]
 GO
 
+-- A Subquery is a query within a query. The inner-most query is called the subquery.
+-- A subquery can appear in almost all clauses of the SELECT statement. For our purposes here,
+-- they tend to appear in the WHERE clause or the HAVING clause.
+
 --1. Select the Payment dates and payment amount for all payments that were Cash
 SELECT PaymentDate, Amount
 FROM   Payment
@@ -15,14 +19,45 @@ WHERE  PaymentTypeID = -- Using the = means that the RH side must be a single va
      WHERE  PaymentTypeDescription = 'cash')
 -- Here is the Inner Join version of the above
 SELECT PaymentDate, Amount
-FROM   Payment P
-    INNER JOIN PaymentType PT
+FROM   Payment AS P
+    INNER JOIN PaymentType AS PT
             ON PT.PaymentTypeID = P.PaymentTypeID
 WHERE  PaymentTypeDescription = 'cash'
 
 
 --2. Select The Student ID's of all the students that are in the 'Association of Computing Machinery' club
 -- TODO: Student Answer Here
+/*
+SELECT * FROM Club
+SELECT * FROM Activity
+*/
+-- Thinking of the subquery first, I can find out
+-- what club ID matches for the given club name
+
+SELECT  StudentID
+FROM    Activity
+WHERE   ClubID =   -- This is the Activity.ClubID
+        (SELECT  ClubID  -- This is the Club.ClubID
+        FROM Club 
+        WHERE ClubName = 'Association of Computing Machinery')
+
+-- 2.b. Let's revisit/modify Question 2: Select the names of all the students in the 'Association of Computing Machinery' club. Use a subquery for your answer; do not use any JOINs. When you make your answer, ensure the outmost query only uses the Student table in its FROM clause.
+SELECT firstName + ' ' + LastName AS 'StudentName'
+FROM Student
+WHERE StudentID IN 
+    (SELECT  StudentID
+    FROM    Activity
+    WHERE   ClubID =   -- This is the Activity.ClubID
+            (SELECT  ClubID  -- This is the Club.ClubID
+            FROM Club 
+            WHERE ClubName = 'Association of Computing Machinery'))
+-- As a solution with JOINs, the following gets the same
+-- result.
+SELECT  FirstName + ' ' + LastName AS 'StudentName'
+FROM    Student AS S
+    INNER JOIN Activity AS A ON S.StudentID = A.StudentID
+    INNER JOIN Club AS C ON C.ClubId = A.ClubId
+WHERE   ClubName = 'Association of Computing Machinery'
 
 --3. Select All the staff full names for staff that have taught a course.
 SELECT FirstName + ' ' + LastName AS 'Staff'
@@ -35,8 +70,6 @@ SELECT DISTINCT FirstName + ' ' + LastName AS 'Staff'
 FROM Staff
     INNER JOIN Registration
         ON Staff.StaffID = Registration.StaffID 
-
--- 2.b. Let's revisit/modify Question 2: Select the names of all the students in the 'Association of Computing Machinery' club. Use a subquery for your answer; do not use any JOINs. When you make your answer, ensure the outmost query only uses the Student table in its FROM clause.
 
 --4. Select All the staff full names that taught DMIT172.
 -- TODO: Student Answer Here
@@ -51,14 +84,18 @@ WHERE  StaffID NOT IN -- I used IN because the subquery returns many rows
 
 -- To do the above questions with a JOIN requires that we use an OUTER JOIN...
 SELECT FirstName + ' ' + LastName AS 'Staff'
+       , Registration.StaffID
 FROM   Staff
     LEFT OUTER JOIN Registration
         ON Staff.StaffID = Registration.StaffID
 WHERE Registration.StaffID IS NULL
 
+-- This following problem falls into the class of
+-- problems that can only be solved with a subquery.
 --6. Select the Payment TypeID(s) that have the highest number of Payments made.
+-- SELECT * FROM Payment
 -- Explore the counts of payment types, before we try the subquery
-SELECT  PaymentTypeID, COUNT(PaymentTypeID) AS 'How many times'
+SELECT  PaymentTypeID, COUNT(PaymentTypeID) AS 'Number of Payments - How many times'
 FROM    Payment
 GROUP BY PaymentTypeID
 
@@ -67,9 +104,11 @@ GROUP BY PaymentTypeID
 SELECT  PaymentTypeID
 FROM    Payment
 GROUP BY PaymentTypeID
+-- Filter on the frequency (count) of the paymentTypeId
 HAVING COUNT(PaymentTypeID)  >= ALL (SELECT COUNT(PaymentTypeID)
                                      FROM Payment 
                                      GROUP BY PaymentTypeID)
+
 
 --7. Select the Payment Type Description(s) that have the highest number of Payments made.
 SELECT PaymentTypeDescription
@@ -77,7 +116,7 @@ FROM   Payment
     INNER JOIN PaymentType 
         ON Payment.PaymentTypeID = PaymentType.PaymentTypeID
 GROUP BY PaymentType.PaymentTypeID, PaymentTypeDescription 
-HAVING COUNT(PaymentType.PaymentTypeID) >= ALL (SELECT COUNT(PaymentTypeID)
+HAVING COUNT(PaymentType.PaymentTypeID) >= ALL (SELECT COUNT(PaymentTypeID) AS 'Frequency/Count'
                                                 FROM Payment 
                                                 GROUP BY PaymentTypeID)
 --   Examining the solution:

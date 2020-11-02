@@ -111,14 +111,25 @@ WHERE City = 'Edm'
 -- 9. What is the avg mark for each of the students from Edm? Display their StudentID and avg(mark)
 -- TODO: Student Answer Here...
 
+SELECT  AVG(Mark) AS 'Average', StudentID AS 'StudentID'
+FROM   Registration 
+WHERE  StudentID IN (SELECT StudentID FROM Student WHERE City = 'Edm')
+GROUP BY StudentID
+
 -- 10. Which student(s) have the highest average mark?
 -- Hint - This can only be done by a subquery.
--- Extra Hint - This one is a bit tricky, because you need to make sure your subquery does not
---              have any NULL rows...
+-- Extra Hint - This one is a bit tricky, because you need to make sure your subquery does not have any NULL rows...
 -- TODO: Student Answer Here...
 
 -- 11. Which course(s) allow the largest classes? Show the course id, name, and max class size.
 -- TODO: Student Answer Here...
+
+SELECT CourseID, CourseName, MaxStudents
+FROM Course
+WHERE CourseID IN (SELECT CourseID 
+                    FROM Registration 
+                    WHERE CourseID = CourseID) -- in progress
+GROUP BY MaxStudents
 
 -- 12. Which course(s) are the most affordable? Show the course name and cost.
 -- TODO: Student Answer Here...

@@ -51,6 +51,7 @@ namespace ChinookTunes.BLL
 
         public List<ArtistAlbumSong> AllTracksByCustomer(int customerId)
         {
+            // ![](../../SongListings.png;;0,41,370,129)
             using (var context = new ChinookContext())
             {
                 var result = from line in context.InvoiceLines
@@ -94,6 +95,7 @@ namespace ChinookTunes.BLL
 
         public List<ArtistTracks> AllTracksByArtist(int customerId)
         {
+            // ![](../../SongListings.png;;0,320,370,393)
             using (var context = new ChinookContext())
             {
                 var result = from line in context.InvoiceLines

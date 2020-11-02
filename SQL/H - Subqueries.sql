@@ -4,6 +4,15 @@
 USE [A01-School]
 GO
 
+-- A subquery is a query that exists inside of another query. It can give us
+-- a smaller set of results for use in the larger problem.
+-- Subqueries can be used in various parts of the SELECT statement, but the
+-- ones we are looking at here occur in the WHERE and HAVING clauses.
+-- Every subquery should return a single columns worth of data.
+-- For most cases, you can use a JOIN in place of a Subquery. There is a 
+-- class of problems that can only be done with a Subquery: when we need
+-- the subquery in the Having clause.
+
 --1. Select the Payment dates and payment amount for all payments that were Cash
 SELECT PaymentDate, Amount
 FROM   Payment
@@ -15,14 +24,24 @@ WHERE  PaymentTypeID = -- Using the = means that the RH side must be a single va
      WHERE  PaymentTypeDescription = 'cash')
 -- Here is the Inner Join version of the above
 SELECT PaymentDate, Amount
-FROM   Payment P
-    INNER JOIN PaymentType PT
+FROM   Payment AS P
+    INNER JOIN PaymentType AS PT
             ON PT.PaymentTypeID = P.PaymentTypeID
 WHERE  PaymentTypeDescription = 'cash'
 
 
 --2. Select The Student ID's of all the students that are in the 'Association of Computing Machinery' club
 -- TODO: Student Answer Here
+/*
+SELECT * FROM Club
+SELECT * FROM Activity
+*/
+SELECT  StudentID
+FROM    Activity
+WHERE   ClubId = 
+                (SELECT ClubID
+                FROM   Club
+                WHERE  ClubName = 'Association of Computing Machinery')
 
 --3. Select All the staff full names for staff that have taught a course.
 SELECT FirstName + ' ' + LastName AS 'Staff'
@@ -34,9 +53,16 @@ WHERE  StaffID IN -- I used IN because the subquery returns many rows
 SELECT DISTINCT FirstName + ' ' + LastName AS 'Staff'
 FROM Staff
     INNER JOIN Registration
-        ON Staff.StaffID = Registration.StaffID 
+        ON Staff.StaffID = Registration.StaffID
 
 -- 2.b. Let's revisit/modify Question 2: Select the names of all the students in the 'Association of Computing Machinery' club. Use a subquery for your answer; do not use any JOINs. When you make your answer, ensure the outmost query only uses the Student table in its FROM clause.
+SELECT  FirstName + ' ' + LastName AS 'StudentName'
+FROM    Student
+WHERE   StudentID IN 
+    (SELECT StudentID FROM Activity
+    WHERE ClubID = 
+        (SELECT ClubID FROM club
+        WHERE ClubName = 'Association of Computing Machinery'))
 
 --4. Select All the staff full names that taught DMIT172.
 -- TODO: Student Answer Here
@@ -56,9 +82,10 @@ FROM   Staff
         ON Staff.StaffID = Registration.StaffID
 WHERE Registration.StaffID IS NULL
 
+-- This is an example of when you HAVE to use subqueries.
 --6. Select the Payment TypeID(s) that have the highest number of Payments made.
 -- Explore the counts of payment types, before we try the subquery
-SELECT  PaymentTypeID, COUNT(PaymentTypeID) AS 'How many times'
+SELECT  PaymentTypeID, COUNT(PaymentTypeID) AS 'Frequency - How many times'
 FROM    Payment
 GROUP BY PaymentTypeID
 
@@ -67,7 +94,7 @@ GROUP BY PaymentTypeID
 SELECT  PaymentTypeID
 FROM    Payment
 GROUP BY PaymentTypeID
-HAVING COUNT(PaymentTypeID)  >= ALL (SELECT COUNT(PaymentTypeID)
+HAVING COUNT(PaymentTypeID)  >= ALL (SELECT COUNT(PaymentTypeID) AS 'Count'
                                      FROM Payment 
                                      GROUP BY PaymentTypeID)
 

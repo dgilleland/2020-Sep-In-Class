@@ -60,7 +60,7 @@ WHERE   CourseId = 'DMIT152'
 
 SELECT AVG(PaymentID) AS 'Payment average'
 FROM Payment
-WHERE PaymentTypeID = '5'
+WHERE PaymentTypeID = 5
 
 -- Given that there are some other aggregate methods like MAX(columnName) and MIN(columnName), complete the following two questions:
 --6. Select the highest payment amount
@@ -84,12 +84,10 @@ FROM Payment
 SELECT PaymentTypeDescription
 FROM   PaymentType
 -- TODO: Student Answer Here
--- 6 different types of payments
+SELECT  COUNT(PaymentTypeID)
+FROM    PaymentType
 
 --10. How many students are in club 'CSS'?
 -- TODO: Student Answer Here
--- 5 students
-SELECT  ClubID,
-        COUNT(StudentID) AS 'Students'
+SELECT  COUNT(Activity.StudentId)
 FROM    Activity
-GROUP BY ClubID

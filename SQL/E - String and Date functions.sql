@@ -21,6 +21,11 @@ GO
 
     -- CHARINDEX
     SELECT '[' + LEFT('Hello World', CHARINDEX(' ', 'Hello World') - 1) + ']'
+    --                               \            6              /
+    --                                \                 5            /
+    --           \             'Hello'                    / 
+    --     \       '[Hello'          /
+    --             \                   '[Hello]'                            /
 
     -- REVERSE
     SELECT REVERSE('Dan')
@@ -116,6 +121,7 @@ WHERE   Mark IS NOT NULL
     LEFT ( character_expression , integer_expression )                      SELECT LEFT('Daniel Gilleland', 3)
     RIGHT ( character_expression , integer_expression )                     SELECT RIGHT('Daniel Gilleland', 4)
     SUBSTRING ( value_expression , start_expression , length_expression )   SELECT SUBSTRING('Daniel', 2, 2)
+                                                                                               ||
     LTRIM ( character_expression )                                          SELECT LTRIM('   Danny    ')
                                                                             SELECT RIGHT(LTRIM('   Danny    '), 5)
     RTRIM ( character_expression )                                          SELECT RTRIM('   Danny    ')

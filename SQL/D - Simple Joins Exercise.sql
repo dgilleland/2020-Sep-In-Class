@@ -19,6 +19,8 @@ SELECT  FirstName + ' ' + LastName AS 'FullName',
 FROM    Student AS S -- table alias
     INNER JOIN Registration AS R
         ON S.StudentID = R.StudentID -- ON helps us identify MATCHING data
+    -- Match up the data where the Student's StudentID is equal to the Registration's
+    -- StudentID
     INNER JOIN Course AS C
         ON R.CourseId = C.CourseId
 
@@ -27,8 +29,8 @@ FROM    Student AS S -- table alias
 SELECT  DISTINCT -- The DISTINCT keyword will remove duplate rows from the results
         FirstName + ' ' + LastName AS 'Staff Full Name',
         CourseId
-FROM    Staff S
-    INNER JOIN Registration R
+FROM    Staff AS S
+    INNER JOIN Registration AS R
         ON S.StaffID = R.StaffID
 ORDER BY 'Staff Full Name', CourseId
 
@@ -45,9 +47,10 @@ ORDER BY ClubID
 SELECT  S.FirstName + ' ' + S.LastName AS 'Student Name',
         R.CourseId,
         R.Mark
-FROM    Registration R
-    INNER JOIN Student S
+FROM    Registration AS R
+    INNER JOIN Student AS S
             ON S.StudentID = R.StudentID
+--          ON R.StudentID = S.StudentID -- Both ways work
 WHERE   S.StudentID = 199899200
 
 --5.	Select the Student full name, course names and marks for studentID 199899200.

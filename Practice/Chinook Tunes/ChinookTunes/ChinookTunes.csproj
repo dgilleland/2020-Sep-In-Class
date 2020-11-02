@@ -72,6 +72,7 @@
     <Compile Include="ViewModels\Person.cs" />
     <Compile Include="ViewModels\PlaylistCounts.cs" />
     <Compile Include="ViewModels\SelectionItem.cs" />
+    <Compile Include="ViewModels\SongSummary.cs" />
     <Compile Include="ViewModels\Song.cs" />
   </ItemGroup>
   <ItemGroup />

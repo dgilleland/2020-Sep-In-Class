@@ -13,7 +13,8 @@
                 AutoPostBack="true" OnSelectedIndexChanged="CustomerSelection_SelectedIndexChanged"
                 CssClass="form-control">
             </asp:DropDownList>
-            <asp:RadioButtonList ID="PlaylistSelection" runat="server"></asp:RadioButtonList>
+            <asp:RadioButtonList ID="PlaylistSelection" runat="server"
+                AutoPostBack="true" OnSelectedIndexChanged="PlaylistSelection_SelectedIndexChanged"></asp:RadioButtonList>
         </div>
     </div>
 

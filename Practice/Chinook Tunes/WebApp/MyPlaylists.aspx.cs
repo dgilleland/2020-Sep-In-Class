@@ -42,5 +42,22 @@ namespace WebApp
             else
                 PlaylistSelection.Items.Clear(); // empty out the radiobutton list
         }
+
+        protected void PlaylistSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Select a new option from the RadioButtonList
+            switch (PlaylistSelection.SelectedValue)
+            {
+                case "All":
+                    // get the list of all playlists (flat list)
+                    break;
+                case "Albums":
+                    // get the songs by album
+                    break;
+                case "Artists":
+                    // get the songs by artist
+                    break;
+            }
+        }
     }
 }

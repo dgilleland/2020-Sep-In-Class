@@ -4,6 +4,15 @@
 USE [A01-School]
 GO
 
+-- A subquery is a query that exists inside of another query. It can give us
+-- a smaller set of results for use in the larger problem.
+-- Subqueries can be used in various parts of the SELECT statement, but the ones
+-- we are looking at here occur in the WHERE and HAVING clauses.
+-- Everyy subquery should return a single columns worth of data.
+-- For most cases, you can use a JOIN in place of a subquery. there is a 
+-- class of problems that can only be done with a subquery: when we need the
+-- subquery in the having clause. 
+
 --2. Select The Student ID's of all the students that are in the 'Association of Computing Machinery' club
 -- TODO: Student Answer Here
 SELECT  StudentID
@@ -11,7 +20,16 @@ FROM    Activity
 WHERE   ClubID = (SELECT ClubID FROM Club
                   WHERE ClubName = 'Association of Computing Machinery')
 
--- 2.b. Select the names of all the students in the 'Association of Computing Machinery' club. Use a subquery for your answer. When you make your answer, ensure the outmost query only uses the Student table in its FROM clause.
+-- 2.b. Select the names of all the students in the 'Association of Computing Machinery' club. Use a subquery for your answer. 
+-- When you make your answer, ensure the outmost query only uses the Student table in its FROM clause.
+
+SELECT  StudentID, FirstName + ' ' + LastName AS 'Student Name'
+FROM  Student
+WHERE StudentID IN (
+    SELECT StudentID FROM Activity
+    WHERE ClubID =
+        (SELECT ClubID FROM Club
+        WHERE ClubName = 'Association of Computing Machinery'))
 
 --4. Select All the staff full names that taught DMIT172.
 -- TODO: Student Answer Here

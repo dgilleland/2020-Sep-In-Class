@@ -45,17 +45,33 @@ namespace WebApp
 
         protected void PlaylistSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var controller = new CustomerController();
             // Select a new option from the RadioButtonList
             switch (PlaylistSelection.SelectedValue)
             {
                 case "All":
                     // get the list of all playlists (flat list)
+                    AllTracks.DataSource = controller.AllTracksByCustomer(int.Parse(CustomerSelection.SelectedValue));
+                    AllTracks.DataBind();
+                    AllTracksPanel.Visible = true;
+                    ByAlbumPanel.Visible = false;
+                    ByArtistPanel.Visible = false;
                     break;
                 case "Albums":
                     // get the songs by album
+                    ByAlbum.DataSource = controller.AllTracksByAlbum(int.Parse(CustomerSelection.SelectedValue));
+                    ByAlbum.DataBind();
+                    AllTracksPanel.Visible = false;
+                    ByAlbumPanel.Visible = true;
+                    ByArtistPanel.Visible = false;
                     break;
                 case "Artists":
                     // get the songs by artist
+                    ByArtist.DataSource = controller.AllTracksByArtist(int.Parse(CustomerSelection.SelectedValue));
+                    ByArtist.DataBind();
+                    AllTracksPanel.Visible = false;
+                    ByAlbumPanel.Visible = false;
+                    ByArtistPanel.Visible = true;
                     break;
             }
         }

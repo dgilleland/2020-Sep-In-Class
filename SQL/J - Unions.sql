@@ -2,6 +2,14 @@
 USE [A01-School]
 GO
 
+SELECT FirstName, LastName
+FROM Staff
+
+UNION
+
+SELECT Firstname, LastName
+FROM Student
+
 --1.	Write a script that will produce the 'It Happened in October' display.
 --The output of the display is shown below
 /*

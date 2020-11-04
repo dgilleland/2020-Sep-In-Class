@@ -60,15 +60,16 @@ AS
             'Student' AS 'Role' -- 'Student' is just a hard-coded value
     FROM    Student
 
+
     UNION
     -- Get all the staff
     SELECT  FirstName + ' ' + LastName AS 'FullName',
             PositionDescription AS 'Role'
-    FROM    Staff S
-        INNER JOIN Position P ON S.PositionID = P.PositionID
+    FROM    Staff AS S
+        INNER JOIN Position AS P ON S.PositionID = P.PositionID
 GO
 
-
+SELECT * FROM RollCall
 --2.  Create a list of course IDs and the number of students in the course and
 --    UNION that with a list of the course IDs and the MaxStudents of the course.
 --    The columns should be 'Course', 'Count', and 'Type', with the type for the

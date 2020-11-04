@@ -2,6 +2,19 @@
 USE [A01-School]
 GO
 
+-- Imagine we want all the names of the people at the school: Staff and Students
+-- In a union, we need to have the same number of columns in both SELECT statements. The columns should also match in terms of their data types.
+
+
+SELECT  FirstName, LastName
+FROM    Staff
+
+UNION
+
+SELECT  FirstName, LastName
+FROM    Student
+
+
 --1.	Write a script that will produce the 'It Happened in October' display.
 --The output of the display is shown below
 /*
@@ -41,7 +54,7 @@ WHERE   MONTH(DateHired) = 10
 ORDER BY 'ID' DESC
 GO
 
--- Create a view called RollCall that has the full name of each staff and student as well as identifying their role in to school.
+-- Create a view called RollCall that has the full name of each staff and student as well as identifying their role in the school.
 IF OBJECT_ID('RollCall', 'V') IS NOT NULL
     DROP VIEW RollCall
 GO
@@ -56,10 +69,11 @@ AS
     -- Get all the staff
     SELECT  FirstName + ' ' + LastName AS 'FullName',
             PositionDescription AS 'Role'
-    FROM    Staff S
-        INNER JOIN Position P ON S.PositionID = P.PositionID
+    FROM    Staff AS S
+        INNER JOIN Position AS P ON S.PositionID = P.PositionID
 GO
 
+SELECT * FROM RollCall
 
 --2.  Create a list of course IDs and the number of students in the course and
 --    UNION that with a list of the course IDs and the MaxStudents of the course.

@@ -2,6 +2,13 @@
 USE [A01-School]
 GO
 
+-- Datebase tables are all about storing information.
+-- SELECT statements are all about retrieving information from our database.
+-- SELECT statements produce a "tabular" result set: the results "look like" a table.
+-- A View is simply a stored SELECT statement that produces a tabular result.
+-- The View does not directly store information (that's done by our tables).
+-- Rather, the View "extracts" data form the tables by using a SELECT statement under the hood.
+
 --1.  Create a view of staff full names called StaffList.
 IF OBJECT_ID('StaffList', 'V') IS NOT NULL
     DROP VIEW StaffList
@@ -42,8 +49,8 @@ AS
             P.PositionID,
             PositionDescription AS 'PositionName',
             DateHired
-    FROM    Staff S
-        INNER JOIN Position P ON S.PositionID = P.PositionID
+    FROM    Staff AS S
+        INNER JOIN Position AS P ON S.PositionID = P.PositionID
 GO
 SELECT  FullName, PositionName, PositionID
 FROM    StaffConfidential
@@ -92,5 +99,5 @@ SELECT StaffName, CourseName FROM StaffExperience
 
 --6.  Select the same information using the student grades view for studentID 199912010.
 
---7.  Retrieve the code for the student grades view from the database.
+--7.  Retrieve the course id for the student grades view from the database.
 

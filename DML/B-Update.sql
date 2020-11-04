@@ -39,6 +39,7 @@ SET    StreetAddress = '4407-78 Ave',
 WHERE  StudentID = 199912010
 
 -- 4. Someone in the registrar's office has noticed a bunch of data-entry errors.
+-- SELECT City FROM Student
 --    All the student cities named 'Edm' should be changed to 'Edmonton'
 UPDATE Student
 SET    City = 'Edmonton'

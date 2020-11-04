@@ -34,6 +34,7 @@ GO -- Execute the code up to this point as a single batch
 -- 1. Let's add a new course called "Expert SQL". It will be a 90 hour course with a cost of $450.00
 INSERT INTO Course(CourseId, CourseName, CourseHours, CourseCost)
 VALUES ('DMIT777', 'Expert SQL', 90, 450.00)
+-- SELECT * FROM Course
 
 -- 2. Let's add a new staff member, someone who's really good at SQL
 -- SELECT * FROM STAFF
@@ -41,7 +42,8 @@ INSERT INTO Staff(FirstName, LastName, DateHired, PositionID)
 SELECT 'Dan', 'Gilleland', GETDATE(), PositionID
        --, PositionDescription
 FROM   Position
-WHERE  PositionDescription = 'Instructor'
+WHERE  PositionDescription = 'Instructor' -- There should only be 1 row
+
 -- 2b. Let's get another instructor
 INSERT INTO Staff(FirstName, LastName, DateHired, PositionID)
 VALUES ('Shane', 'Bell', GETDATE(), 

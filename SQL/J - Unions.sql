@@ -2,6 +2,15 @@
 USE [A01-School]
 GO
 
+-- Imagine we want all the names of the people at the school: Staff and Students
+SELECT  FirstName, LastName
+FROM    Staff
+
+UNION
+
+SELECT  FirstName, LastName
+FROM    Student
+
 --1.	Write a script that will produce the 'It Happened in October' display.
 --The output of the display is shown below
 /*
@@ -60,6 +69,8 @@ AS
         INNER JOIN Position P ON S.PositionID = P.PositionID
 GO
 
+SELECT FullName, [Role] FROM RollCall
+ORDER BY [Role], FullName
 
 --2.  Create a list of course IDs and the number of students in the course and
 --    UNION that with a list of the course IDs and the MaxStudents of the course.

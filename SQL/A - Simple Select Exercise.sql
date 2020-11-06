@@ -108,6 +108,7 @@ FROM    Position
 SELECT  C.CourseName
 FROM    Course AS C -- I can have an alias to the table name
 WHERE   C.CourseHours < 96
+
 -- Type with me the following...
 SELECT  ST.LastName, ST.DateHired, ST.DateReleased
 FROM    Staff AS ST -- The use of the AS keyword in producing table/column aliases is optional
@@ -158,7 +159,7 @@ WHERE   R.Mark BETWEEN 70 AND 80
 --8.a. Select the studentIDs, CourseID and mark where the Mark is 80 and 85
 --                \     display               /           \   filter      /
 SELECT  R.StudentID, R.CourseId, R.Mark
-FROM    Registration R
+FROM    Registration AS R
 WHERE   R.Mark = 80 OR R.Mark = 85
 -- WHERE   R.Mark = 80 AND R.Mark = 85
 -- The WHERE clause examines each row - Mark can't have 2 values at the same time
@@ -180,17 +181,20 @@ WHERE   CourseID LIKE '____1%' -- four underscores, 1, %
 --                     DMIT158
 
 --11. Select the CourseID's and CourseNames where the CourseName contains the word 'programming'
+-- TODO: Student Answer Here
 SELECT  C.CourseId, C.CourseName
 FROM    Course AS C
 WHERE   CourseName LIKE '%programming%'
 
 --12. Select all the ClubNames who start with N or C.
+-- TODO: Student Answer Here
 SELECT  RG.ClubName
 FROM    Club AS RG
 --WHERE   RG.ClubName LIKE 'N%' OR RG.ClubName LIKE 'C%'
 WHERE   RG.ClubName LIKE '[NC]%'
 
 --13. Select Student Names, Street Address and City where the lastName is only 3 letters long.
+-- TODO: Student Answer Here
 SELECT  S.FirstName + ' ' + S.LastName AS 'StudentName',
         S.StreetAddress,
         S.City
@@ -198,6 +202,7 @@ FROM    Student AS S
 WHERE   S.LastName LIKE '___'
 
 --14. Select all the StudentID's where the PaymentAmount < 500 OR the PaymentTypeID is 5
+-- TODO: Student Answer Here
 SELECT  StudentID
 FROM    Payment
 WHERE   Amount < 500

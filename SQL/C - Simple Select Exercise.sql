@@ -41,14 +41,24 @@ ORDER BY COUNT(PaymentTypeID) ASC
 
 -- 3. Select the average Mark for each studentID. Display the StudentId and their average mark
 -- TODO: Student Answer Here....
-SELECT  StudentID, AVG(Mark) AS 'Average Mark'
-FROM    Registration
+SELECT StudentID,
+       AVG(Mark) AS 'Avg Mark'
+FROM   Registration
 GROUP BY StudentID
 
 -- 4. Select the same data as question 3 but only show the studentID's and averages that are > 80
 SELECT StudentID,
        AVG(Mark) AS 'Avg Mark'
 FROM   Registration
+GROUP BY StudentID
+-- The HAVING clause is where we do filtering of Aggregate information
+HAVING AVG(Mark) > 80
+
+-- 4.a. Select the average mark for each student in first year courses (the 5th character of the course id is '1').
+SELECT StudentID,
+       AVG(Mark) AS 'Avg Mark'
+FROM   Registration
+WHERE  CourseId LIKE '____1%' -- Non-aggregate filtering of rows should happen in the WHERE clause
 GROUP BY StudentID
 -- The HAVING clause is where we do filtering of Aggregate information
 HAVING AVG(Mark) > 80
@@ -93,25 +103,30 @@ GROUP BY ClubId
 HAVING  COUNT(StudentID) >= 3
 
 --10. Grouping the courses by the number of hours in each course, what is the average cost of those courses? Display the course hours and the average cost.
+-- TODO: Student Answer Here
 SELECT  CourseHours, AVG(CourseCost) AS 'AvgCost'
 FROM    Course
 GROUP BY CourseHours
 
 --11. Which teachers are getting the best results from the courses they teach? Display the staff ID and the average course mark, sorted by the course mark from highest to lowest.
+-- TODO: Student Answer Here
 SELECT  StaffID, AVG(Mark) AS 'AvgMark'
 FROM    Registration
 GROUP BY StaffID
 ORDER BY AVG(Mark) DESC
 
 --12. How many male and female students do we have?
+-- TODO: Student Answer Here
 SELECT Gender, COUNT(StudentID) AS 'Count'
 FROM   Student
 GROUP BY Gender
 
 --13. Show the average balance owing for male and female students.
+-- TODO: Student Answer Here
 SELECT Gender, AVG(BalanceOwing) AS 'AverageOwed'
 FROM   Student
 GROUP BY Gender
 
 --14. How many students participate in school clubs? Display the club id and the number of students. (Hint: You should be using the Activity table for this question.)
+-- TODO: Student Answer Here
 -- See Q.8.

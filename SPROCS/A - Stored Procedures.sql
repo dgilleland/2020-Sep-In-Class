@@ -55,18 +55,21 @@ PRINT @Cost
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'GuessRows')
     DROP PROCEDURE GuessRows
 GO
-CREATE PROCEDURE GuessRows
-    @clubRows   int
-AS
+CREATE PROCEDURE GuessRows -- Identify the name of the SPROC to create
+    -- I don't use the DECLARE keyword in the parameter list
+    @clubRows   int -- Declaration of the parameter list
+AS -- We are starting to declare the body of the SPROC
     DECLARE @actual int
     SELECT @actual = COUNT(ClubId) FROM Club
     IF @actual <> @clubRows
     BEGIN
+        -- RAISEERROR is kind of like exceptions in c#, but without leaving the stored procedure (SPROC)
         RAISERROR('Wrong guess. Club has a different number of rows', 16, 1)
         IF @clubRows > @actual
             RAISERROR('Too high a guess', 16, 1)
         ELSE
-            RAISERROR('Too low a guess', 16, 1)
+            RAISERROR('Too low a guess', 16, 1) -- always use: (  , 16, 1)
+            --         message    , error code, severity/state
     END
     ELSE
     BEGIN

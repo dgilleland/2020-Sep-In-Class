@@ -266,7 +266,7 @@ The form allows employees to create new orders and view previous orders. Any ord
 
 An order without an Order Date can be modified. It may be an order that is *"In Progress"* (saved, but not placed), or an entirely new order.
 
-| New Order | Open Order |
+| New Order | Open Order - *In Progress* |
 |--|--|
 | ![](./CustomerOrders/images/EditNewOrder.png) | ![](./CustomerOrders/images/EditOpenOrder.png) |
 

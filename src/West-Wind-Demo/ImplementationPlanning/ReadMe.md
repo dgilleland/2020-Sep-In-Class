@@ -263,6 +263,13 @@ Once a customer is selected, the rest of the form populates. Initally, the form 
 |:-----:|:---:|
 | ![](./CustomerOrders/images/CustomerOrders-Layout-OrderHistory.png) | ![](./CustomerOrders/images/CustomerOrders-Layout-OrderEditing.png) |
 
+### Viewing Order History
+
+| Shipped Orders | Open Orders |
+|:-----:|:---:|
+| ![](./CustomerOrders/images/OrderHistory-ShippedOrders.png) | ![](./CustomerOrders/images/OrderHistory-ShippedOrders.png) |
+
+> TBA
 
 ### Editing New / Open Orders
 

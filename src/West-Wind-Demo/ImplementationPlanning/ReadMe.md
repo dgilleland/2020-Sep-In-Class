@@ -255,12 +255,12 @@ Once a customer is selected, the rest of the form populates. Initally, the form 
 ![](./CustomerOrders/images/CustomerOrders-Layout.png)
 -->
 
-| Listing Order History | Editing Orders |
+| Order History | Editing Orders |
 |:-----:|:---:|
 | ![](./CustomerOrders/images/CustomerOrders-Layout-OrderHistory.png) | ![](./CustomerOrders/images/CustomerOrders-Layout-OrderEditing.png) |
 
 
-### New / Open Orders
+### Editing New / Open Orders
 
 The form allows employees to create new orders and view previous orders. Any order whose *Order Date* has been set cannot be modified, because that order has been *"Placed"*.
 
@@ -278,20 +278,11 @@ Saving and placing customer orders is something that has to be done as part of a
 
 ----
 
-
-![](./CustomerOrders/images/EditNewOrder.png)
-
-----
-
-![](./CustomerOrders/images/EditOpenOrder.png)
-
-----
-
 ## Planning Your Implementation
 
 ### Examining the Database
 
-#### Order History
+#### Querying the Customer's Order History
 
 ![](./CustomerOrders/images/CustomerOrder-SelectedCompany.png)
 
@@ -307,6 +298,8 @@ Selecting a customer from the drop-down will also cause a query of the orders ma
 ![](./CustomerOrders/images/Query-OrderSummary.png)
 
 ----
+
+## Planning Your Implementation
 
 ### UI Interactions
 

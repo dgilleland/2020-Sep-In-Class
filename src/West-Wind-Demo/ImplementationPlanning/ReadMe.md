@@ -317,15 +317,15 @@ Selecting a customer from the drop-down will also cause a query of the orders ma
   - The list of orders comes from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
     - The `shippedOnly` will be based on which radio button option was picked.
     - The `List<OrderSummary>` will be used to populate a **GridView** called **CustomerOrdersGridView**.
-- **`_OnItemCommand()`** for the **EditOrder** button in the **CustomerOrdersGridView**
-- **`NewOrder_Click()`**
-- **`SaveOrder_Click()`**
-- **`PlaceOrder_Click()`**
+- **`_OnItemCommand()`** for the **EditOrder** button in the **CustomerOrdersGridView** will get order details from the BLL method `CustomerOrder GetCustomerOrder(int orderId)` and populate the Edit Order form
+- **`NewOrder_Click()`** - Preps the Edit Order form for creating a new order. (Querying for drop-downs - via ObjectDataSource control)
+- **`SaveOrder_Click()`** - Gathers information from the form and calls the BLL method `void Save(EditCustomerOrder order)`
+- **`PlaceOrder_Click()`** - Gathers information from the form and calls the BLL method `void PlaceOrder(EditCustomerOrder order)`
 
 
 ### BLL
 
-The BLL will consist of an **`CustomerOrdersController`** supporting the following methods:
+The BLL will consist of an **`SalesController`** supporting the following methods:
 
 ```csharp
 public List<SelectionItem> ListCustomers()
@@ -336,10 +336,20 @@ public CustomerContactInfo GetCustomerContact(int customerId)
 
 public List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)
 { /* query from Orders, Employees, OrderDetails, Shipments, Shippers */ }
+
+public CustomerOrder GetCustomerOrder(int orderId)
+{ /* query from Orders, OrderDetails, Products */ }
+
+public void Save(EditCustomerOrder order)
+{ /* command modifying Orders, OrderDetails */ }
+
+public void PlaceOrder(EditCustomerOrder order)
+{ /* command modifying Orders, OrderDetails */ }
 ```
 
 ### View Models
 
+#### Queries
 
 ```csharp
 public class CustomerContactInfo
@@ -361,6 +371,51 @@ public class OrderSummary
     public string Shipper { get; set; }
     public decimal FreightCharges { get; set; }
     public decimal OrderTotal { get; set; }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    public DateTime RequiredDate { get; set; }
+    public decimal Freight { get; set; }
+    public IEnumerable<OrderItems> Items { get; set; }
+}
+```
+
+```csharp
+public class OrderedItems
+{
+    public int OrderDetailId { get; set; }
+    public int ProductId { get; set; }
+    public decimal Price { get; set; }
+    public short Quantity { get; set; }
+    public double Discount { get; set; }
+    public string ProductName { get; set; }
+    public string QuantityPerUnit { get; set; }
+}
+```
+
+#### Commands
+
+```csharp
+public class EditCustomerOrder
+{
+    public int? OrderId { get; set; }
+    public DateTime RequiredDate { get; set; }
+    public decimal Freight { get; set; }
+    public List<ItemOrdered> Items { get; set; }
+}
+```
+
+```csharp
+public class ItemOrdered
+{
+    public int? OrderDetailId { get; set; }
+    public int ProductId { get; set; }
+    public decimal Price { get; set; }
+    public short Quantity { get; set; }
+    public double Discount { get; set; }
 }
 ```
 

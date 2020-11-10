@@ -299,7 +299,7 @@ Selecting a customer from the drop-down will also cause a query of the orders ma
 
 ----
 
-## Planning Your Implementation
+## Documenting Your Plan
 
 ### UI Interactions
 

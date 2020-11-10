@@ -235,6 +235,10 @@ public class ProductPrice
 
 # Customer Orders
 
+* [The Backstory](#the-backstory)
+* [Planning Your Implementation](#planning-your-implementation)
+* [Documenting Your Implementation Plan](#documenting-your-plan)
+
 ## The Backstory
 
 The customers of **WestWind Wholesale &reg;** place their orders by phone or fax. Employees then enter the details of the order into the system via the **Customer Order Form** (from the *Sales* menu item on the website).

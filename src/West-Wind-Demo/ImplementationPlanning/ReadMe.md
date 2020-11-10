@@ -23,6 +23,33 @@ The following examples demonstrate one way of mapping out your **Implementation 
 - [**Customer Orders**](#customer-orders) - Customers of *West-Wind Wholesale &reg;* place their orders by phone or fax. Employees then enter the details of the order into the system via the **Customer Order Form**
 - [**Order Processing**](#order-processing) - Orders are shipped directly from our suppliers to our customers. As such, suppliers log onto our system to see what orders there are for the products that they provide.
 
+## Common View Models
+
+In all the examples supplied in this discussion, the following View Model class will be used for situations related to DropDownList, RadioButtonList and CheckBoxList controls.
+
+```csharp
+/// <summary>
+/// A general-purpose class for binding with a DropDownList or similar control.
+/// </summary>
+public class SelectionItem
+{
+    /// <summary>
+    /// Gets or sets the identifier value.
+    /// </summary>
+    /// <value>
+    /// The identifier value.
+    /// </value>
+    public string IDValue { get; set; }
+    /// <summary>
+    /// Gets or sets the display text.
+    /// </summary>
+    /// <value>
+    /// The display text.
+    /// </value>
+    public string DisplayText { get; set; }
+}
+```
+
 ----
 
 <div class="divider"></div>
@@ -99,7 +126,7 @@ Because of the increasing size of our product catalog, the form will only show p
 
 When editing any given product, the form should allow changes to be made according to the following mockup.
 
-![](.//ManageInventory/ManageInventory-Edit.png)
+![](./ManageInventory/ManageInventory-Edit.png)
 
 ----
 
@@ -125,7 +152,11 @@ When existing products are being modified, only the unit price is to be changed.
 
 ### UI Interactions
 
-- **`Page_Load`** - No products will be displayed unless a partial product name has been entered.
+- **`Page_Load`**
+  - No products will be displayed unless a partial product name has been entered.
+  - *DropDownList* controls will call BLL methods for
+    - **Suppliers** - `List<SelectionItem> ListSuppliers()`
+    - **Categories** - `List<SelectionItem> Categories()`
 - **`_Click()`** - for the **Filter by Partial Product Name** button - this should call a method in the BLL: `List<ProductDetails> GetProducts(string partialName, bool includeDiscontinued)`, and then it will populate the `<asp:ListView>` with the result.
 - **`_OnItemCommand()`**
   - for the `CommandName` of **"Insert"**
@@ -145,6 +176,12 @@ The BLL will consist of an **`InventoryController`** supporting the following me
 ```csharp
 public List<ProductDetails> GetProducts(string partialName, bool IncludeDiscontinued)
 { /* query from Products, Suppliers, & Categories */ }
+
+public List<SelectionItem> ListCategories()
+{ /* query from Categories */ }
+
+public List<SelectionItem> ListSuppliers()
+{ /* query from Suppliers */ }
 
 public void DiscontinueProduct(productId)
 { /* command affecting Products*/ }
@@ -200,51 +237,70 @@ public class ProductPrice
 
 ## The Backstory
 
-The customers of **WestWind Wholesale** place their orders by phone or fax. Employees then enter the details of the order into the system via the **Customer Order Form** (from the *Sales* menu item on the website).
+The customers of **WestWind Wholesale &reg;** place their orders by phone or fax. Employees then enter the details of the order into the system via the **Customer Order Form** (from the *Sales* menu item on the website).
+
+This form is also used to view completed orders whose products have already been shipped to the customer.
+
+When the sales representative first opens the form, all they see is a simple drop-down list for selecting a customer.
+
+![](./CustomerOrders/images/CustomerOrder-PageLoad.png)
+
+Once a customer is selected, the rest of the form populates. Initally, the form focuses on showing the Order History view of the customer. The sales rep can then either 
+
+- View details on a shipped order
+- Create a new order
+- Edit an "open" order
+
+<!--
+![](./CustomerOrders/images/CustomerOrders-Layout.png)
+-->
+
+| Listing Order History | Editing Orders |
+|:-----:|:---:|
+| ![](./CustomerOrders/images/CustomerOrders-Layout-OrderHistory.png) | ![](./CustomerOrders/images/CustomerOrders-Layout-OrderEditing.png) |
+
+
+### New / Open Orders
 
 The form allows employees to create new orders and view previous orders. Any order whose *Order Date* has been set cannot be modified, because that order has been *"Placed"*.
 
 An order without an Order Date can be modified. It may be an order that is *"In Progress"* (saved, but not placed), or an entirely new order.
 
-----
+| New Order | Open Order |
+|--|--|
+| ![](./CustomerOrders/images/EditNewOrder.png) | ![](./CustomerOrders/images/EditOpenOrder.png) |
 
-![](.//CustomerOrders/images/CustomerOrders-Layout.png)
+### Saving/Placing Orders
 
-----
-
-![](.//CustomerOrders/images/CustomerOrders-Layout-OrderHistory.png)
-
-----
-
-![](.//CustomerOrders/images/CustomerOrders-Layout-OrderEditing.png)
-
-----
+Saving and placing customer orders is something that has to be done as part of a **transaction**. The following sequence diagram supplied by the analysts illustrates the transactional behaviour that is represented by the **Save** command on the system.
 
 ![](CustomerOrders/images/Northwind-CustomerSales-Save.png)
 
 ----
 
-![](.//CustomerOrders/images/CustomerOrder-PageLoad.png)
+
+![](./CustomerOrders/images/EditNewOrder.png)
 
 ----
 
-![](.//CustomerOrders/images/CustomerOrder-SelectedCompany.png)
+![](./CustomerOrders/images/EditOpenOrder.png)
 
 ----
 
-![](.//CustomerOrders/images/EditNewOrder.png)
-
-----
-
-![](.//CustomerOrders/images/EditOpenOrder.png)
-
-----
+## Planning Your Implementation
 
 ### Examining the Database
 
+#### Order History
+
+![](./CustomerOrders/images/CustomerOrder-SelectedCompany.png)
+
+
 The list of existing customers needs to draw information from the **Customers** tables. When a given customer is selected, we will then need the contact info for that customer.
 
-![](./CustomerOrders/Images/Query-Customers.png) ![](./CustomerOrders/Images/Query-CustomerContactInfo.png)
+| `SelectionItem` View Model | `CustomerContactInfo` View Model |
+|--|--|
+| ![](./CustomerOrders/images/Query-Customers.png)  | ![](./CustomerOrders/images/Query-CustomerContactInfo.png) |
 
 Selecting a customer from the drop-down will also cause a query of the orders made by that customer. Those orders may be **completed** (shipped) orders or **open** orders (*partially-shipped orders* or *orders that have been started but not yet been placed*). This would be represented in an **`OrderSummary`** view model.
 
@@ -254,7 +310,7 @@ Selecting a customer from the drop-down will also cause a query of the orders ma
 
 ### UI Interactions
 
-- **`Page_Load`** - Have a list of the customers in a DropDownList. This will be from the BLL method `??? ListCustomers()`
+- **`Page_Load`** - Have a list of the customers in a DropDownList. This will be from the BLL method `List<SelectionItem> ListCustomers()`
 - **`_SelectedIndexChanged()`** for the **CustomersDropdown** control:
   - The customer information will be obtained from the BLL method `CustomerContactInfo GetCustomerContact(int customerId)`
   - The list of orders from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
@@ -264,16 +320,23 @@ Selecting a customer from the drop-down will also cause a query of the orders ma
   - The list of orders from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
     - The `shippedOnly` will be based on which radio button option was picked.
     - The `List<OrderSummary>` will be used to populate a **GridView** called **CustomerOrdersGridView**.
+- **`_OnItemCommand()`** for the **EditOrder** button in the **CustomerOrdersGridView**
+- **`NewOrder_Click()`**
+- **`SaveOrder_Click()`**
+- **`PlaceOrder_Click()`**
+
 
 ### BLL
 
 The BLL will consist of an **`CustomerOrdersController`** supporting the following methods:
 
 ```csharp
-public ??? ListCustomers()
+public List<SelectionItem> ListCustomers()
 { /* query from Customers */ }
+
 public CustomerContactInfo GetCustomerContact(int customerId)
 { /* query from Customers */ }
+
 public List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)
 { /* query from Orders, Employees, OrderDetails, Shipments, Shippers */ }
 ```
@@ -314,7 +377,7 @@ public class OrderSummary
 
 ----
 
-![](.//OrderProcessing/OrderProcessing.png)
+![](./OrderProcessing/OrderProcessing.png)
 
 ----
 

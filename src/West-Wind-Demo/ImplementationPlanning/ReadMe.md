@@ -306,11 +306,11 @@ Selecting a customer from the drop-down will also cause a query of the orders ma
 - **`Page_Load`** - Have a list of the customers in a DropDownList. This will be from the BLL method `List<SelectionItem> ListCustomers()`
 - **`_SelectedIndexChanged()`** for the **CustomersDropdown** control:
   - The customer information will be obtained from the BLL method `CustomerContactInfo GetCustomerContact(int customerId)`
-  - The list of orders from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
+  - The list of orders comes from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
     - The `shippedOnly` will be `true` for this call.
     - The `List<OrderSummary>` will be used to populate a **GridView** called **CustomerOrdersGridView**.
 - **`_SelectedIndexChanged()`** for the **OrderFilterRadioButtonList** control:
-  - The list of orders from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
+  - The list of orders comes from the BLL method `List<OrderSummary> ListCustomerOrders(int customerId, bool shippedOnly)`
     - The `shippedOnly` will be based on which radio button option was picked.
     - The `List<OrderSummary>` will be used to populate a **GridView** called **CustomerOrdersGridView**.
 - **`_OnItemCommand()`** for the **EditOrder** button in the **CustomerOrdersGridView**

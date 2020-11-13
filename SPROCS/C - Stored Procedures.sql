@@ -7,6 +7,22 @@ GO
 -- Take the following queries and turn them into stored procedures.
 
 -- 1.   Selects the studentID's, CourseID and mark where the Mark is between 70 and 80
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'ListStudentMarksByRange')
+    DROP PROCEDURE ListStudentMarksByRange
+GO
+-- sp_help Club -- Running the sp_help stored procedure will give you information about a table, sproc, etc.
+CREATE PROCEDURE ListStudentMarksByRange
+    -- Parameters here
+AS
+    -- Body of procedure here
+    -- Should put some validation here.....
+      SELECT  StudentID, CourseId, Mark
+      FROM    Registration
+      WHERE   Mark BETWEEN 70 AND 80
+RETURN
+GO
+
 SELECT  StudentID, CourseId, Mark
 FROM    Registration
 WHERE   Mark BETWEEN 70 AND 80 -- BETWEEN is inclusive
@@ -18,13 +34,25 @@ WHERE   Mark BETWEEN 70 AND 80 -- BETWEEN is inclusive
 /* ----------------------------------------------------- */
 
 -- 2.   Selects the Staff full names and the Course ID's they teach.
-SELECT  DISTINCT -- The DISTINCT keyword will remove duplate rows from the results
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'ListStudentMarksByRange')
+    DROP PROCEDURE ListStudentMarksByRange
+GO
+-- sp_help Club -- Running the sp_help stored procedure will give you information about a table, sproc, etc.
+CREATE PROCEDURE ListStudentMarksByRange
+    -- Parameters here
+AS
+    -- Body of procedure here
+    -- Should put some validation here.....
+      SELECT  DISTINCT -- The DISTINCT keyword will remove duplate rows from the results
         FirstName + ' ' + LastName AS 'Staff Full Name',
         CourseId
-FROM    Staff S
-    INNER JOIN Registration R
-        ON S.StaffID = R.StaffID
-ORDER BY 'Staff Full Name', CourseId
+      FROM    Staff S
+        INNER JOIN Registration R
+          ON S.StaffID = R.StaffID
+      ORDER BY 'Staff Full Name', CourseId
+RETURN
+GO
+
 --      Place this in a stored procedure called CourseInstructors.
 
 

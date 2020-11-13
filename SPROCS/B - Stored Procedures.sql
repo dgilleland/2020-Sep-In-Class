@@ -1,6 +1,15 @@
 -- Stored Procedures (Sprocs)
 -- Validating Parameter Values
 
+/*
+
+When stored procedures define parameters, they are declaring one or more variables that will hold information that comes in from outside the stored procedure. Because it's coming from outside, we need to validate the information that is being passed in. Every parameter could potentially have a null value. One of the validation we might need to perform is to make sure that any given parameter is not null.
+When there is something wrong with data that is supplied in the parameters, we can report that through the RAISERROR() function. It's important to note that RAISERROR() is NOT like throwing an exception in C#: An exception in C# will force the method to exit immediately. But RAISERROR() does not.
+
+The implication of this is that since our SQL code in our sproc will continue to run, we need to be purposeful about using the ELSE side of our IF statements.
+
+*/
+
 USE [A01-School]
 GO
 
@@ -35,6 +44,14 @@ AS
 RETURN
 GO
 
+-- Test the sproc with some data. I'm going to start with some bad data.
+-- EXEC AddClub null, null
+-- EXEC AddClub 'NADA', null
+-- EXEC AddClub null, 'Nominal Attention Deficit Association'
+-- Currently, our NOT NULL constraints  on the table are preventing the insert.
+-- BUT, because the table design could change in the future and because we
+-- to present a stable/consistent behaviour for our stored procedure, we should
+-- put in our own validation.
 
 -- 1.b. Modify the AddClub procedure to ensure that the club name and id are actually supplied. Use the RAISERROR() function to report that this data is required.
 ALTER PROCEDURE AddClub
@@ -71,7 +88,10 @@ RETURN
 GO
 
 EXEC FindStudentClubs NULL  -- What do you predict the result will be?
+-- If you add NULL + '%' (null added to any string) the result is NULL
 EXEC FindStudentClubs ''    -- What do you predict the result will be?
+-- Adding '' + '%' will give '%'
+
 GO
 ALTER PROCEDURE FindStudentClubs
     @PartialID      varchar(10)
@@ -100,7 +120,7 @@ AS
         RAISERROR('The partial ID must be two or more characters', 16, 1)
         -- The 16 is the error number and the 1 is the severity
     END     -- }
-    ELSE
+    ELSE  -- Don't forget this!!
     BEGIN
         SELECT  ClubID, ClubName
         FROM    Club
@@ -142,6 +162,7 @@ AS
         WHERE   StudentId = @StudentId 
     END   -- ...B }
 RETURN
+GO
 
 -- 4. Create a stored procedure that allows us to make corrections to a student's name. It should take in the student ID and the corrected name (first/last) of the student. Call the stored procedure CorrectStudentName. Validate that the student exists before attempting to change the name.
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'CorrectStudentName')
@@ -162,7 +183,9 @@ AS
                 LastName = @LastName
         WHERE   StudentID = @StudentId
 RETURN
+
 GO
+EXEC CorrectStudentName NULL, NULL, NULL
 
 -- 5. Create a stored procedure that will remove a student from a club. Call it RemoveFromClub.
 -- TODO: Student Answer Here

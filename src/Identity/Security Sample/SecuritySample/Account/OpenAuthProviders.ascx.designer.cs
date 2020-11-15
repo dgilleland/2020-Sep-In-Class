@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SecuritySample.Account {
-    
-    
-    public partial class OpenAuthProviders {
-        
+namespace SecuritySample.Account
+{
+
+
+    public partial class OpenAuthProviders
+    {
+
         /// <summary>
         /// providerDetails control.
         /// </summary>

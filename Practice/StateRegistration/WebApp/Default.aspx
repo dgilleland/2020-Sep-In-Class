@@ -19,7 +19,12 @@
                     <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName"></asp:BoundField>
                     <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email"></asp:BoundField>
                     <asp:TemplateField>
+                        <EditItemTemplate>
+                            <%--What will be rendered when this row is in Edit Mode--%>
+                            <%--The row that is in Edit Mode can be seen by the GridView's .EditRow property--%>
+                        </EditItemTemplate>
                         <ItemTemplate>
+                            <%--What will be rendered for each item that is being displayed--%>
                             <image src="<%# Item.Avatar %>" />
                         </ItemTemplate>
                     </asp:TemplateField>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{BFE4A0B5-EDD5-4587-A804-F12AA4744480}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeorgiaVoterRegistration", "GeorgiaVoterRegistration\GeorgiaVoterRegistration.csproj", "{FC1CE3B4-2074-4AB0-BBC4-0342A60AEDBD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFE4A0B5-EDD5-4587-A804-F12AA4744480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFE4A0B5-EDD5-4587-A804-F12AA4744480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFE4A0B5-EDD5-4587-A804-F12AA4744480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFE4A0B5-EDD5-4587-A804-F12AA4744480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC1CE3B4-2074-4AB0-BBC4-0342A60AEDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC1CE3B4-2074-4AB0-BBC4-0342A60AEDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC1CE3B4-2074-4AB0-BBC4-0342A60AEDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC1CE3B4-2074-4AB0-BBC4-0342A60AEDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7120F19-5E62-44C7-B628-69B39CFEC0E4}
+	EndGlobalSection
+EndGlobal

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeorgiaVoterRegistration.BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,12 @@ namespace WebApp
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+        protected void MailIn_Click(object sender, EventArgs e)
+        {
+            var controller = new DominionController();
+            controller.GenerateData();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace WebApp.Admin.Security
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            // Phase A - First, we'll set up our Security Roles
+            #region Phase A - First, we'll set up our Security Roles
             // 1. Instantiate a Controller class from ASP.Net Identity to add roles
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             // 2. Grab our list of security roles from the web.config
@@ -25,8 +25,9 @@ namespace WebApp.Admin.Security
             // 3. Loop through and create the security roles
             foreach (var role in startupRoles)
                 roleManager.Create(new IdentityRole { Name = role });
+            #endregion
 
-            // Phase B - Next, we'll add in our Website Administrator
+            #region Phase B - Next, we'll add in our Website Administrator
             // 1. Get the values from the <appSettings>
             string adminUser = ConfigurationManager.AppSettings["adminUserName"];
             string adminEmail = ConfigurationManager.AppSettings["adminEmail"];
@@ -43,8 +44,9 @@ namespace WebApp.Admin.Security
             }, adminPass);
             if (result.Succeeded)
                 userManager.AddToRole(userManager.FindByName(adminUser).Id, adminRole);
+            #endregion
 
-            // Phase C - Lastly, we'll add login users for each of the Voters in our database
+            #region Phase C - Lastly, we'll add login users for each of the Voters in our database
             // 1. Get the values from the <appSettings> in the web.config
             string defaultRole = ConfigurationManager.AppSettings["defaultRole"];
             string newUserPassword = ConfigurationManager.AppSettings["newUserPassword"];
@@ -64,6 +66,7 @@ namespace WebApp.Admin.Security
                 if (result.Succeeded)
                     userManager.AddToRole(userManager.FindByEmail(person.Email).Id, defaultRole);
             }
+            #endregion
 
             base.Seed(context);
         }

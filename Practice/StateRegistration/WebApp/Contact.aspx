@@ -3,6 +3,9 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
     <h3>Your contact page.</h3>
+    <div>
+        <asp:Label ID="MessageLabel" runat="server" />
+    </div>
     <address>
         One Microsoft Way<br />
         Redmond, WA 98052-6399<br />

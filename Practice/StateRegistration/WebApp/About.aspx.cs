@@ -11,7 +11,9 @@ namespace WebApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // Demo how to secure this page for Authenticated (logged in) users
+            if (!Request.IsAuthenticated)
+                Response.Redirect("~/Account/Login", true); // send them to the Login page
         }
     }
 }

@@ -32,7 +32,7 @@ namespace WebApp.Admin.Security
             string adminUser = ConfigurationManager.AppSettings["adminUserName"];
             string adminEmail = ConfigurationManager.AppSettings["adminEmail"];
             string adminPass = ConfigurationManager.AppSettings["adminPassword"];
-            string adminRole = ConfigurationManager.AppSettings["adminRole"];
+            
             // 2. Instantiate my Controller to manage Users
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
             //                \   IdentityConfig.cs    /             \IdentityModels.cs/
@@ -43,12 +43,11 @@ namespace WebApp.Admin.Security
                 Email = adminEmail
             }, adminPass);
             if (result.Succeeded)
-                userManager.AddToRole(userManager.FindByName(adminUser).Id, adminRole);
+                userManager.AddToRole(userManager.FindByName(adminUser).Id, DefaultRoles.AdminRole);
             #endregion
 
             #region Phase C - Lastly, we'll add login users for each of the Voters in our database
             // 1. Get the values from the <appSettings> in the web.config
-            string defaultRole = ConfigurationManager.AppSettings["defaultRole"];
             string newUserPassword = ConfigurationManager.AppSettings["newUserPassword"];
             // 2. Instantiate my controller to get voters
             var controller = new DominionController();
@@ -64,7 +63,7 @@ namespace WebApp.Admin.Security
                     RegisteredAs = "Democrat"
                 }, newUserPassword);
                 if (result.Succeeded)
-                    userManager.AddToRole(userManager.FindByEmail(person.Email).Id, defaultRole);
+                    userManager.AddToRole(userManager.FindByEmail(person.Email).Id, DefaultRoles.DefaultRole);
             }
             #endregion
 

@@ -83,14 +83,14 @@ The **implementation plan** must clearly indicate the connections between the *f
 The BLL will consist of a **`ProductCatalogController`** supporting the following methods:
 
 ```csharp
-public List<CategorizedProducts> GetProductCatalog()
+public List<ProductCategory> GetProductCatalog()
 { /* query from Categories & Products */ }
 ```
 
 ### View Models
 
 ```csharp
-public class CategorizedProducts
+public class ProductCategory
 {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -100,7 +100,7 @@ public class CategorizedProducts
 ```
 
 ```csharp
-public class ProductInfo
+public class ProductSummary
 {
     public string Name { get; set; }
     public string UnitQuantity { get; set; }

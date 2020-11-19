@@ -15,8 +15,8 @@
                     <asp:ControlParameter ControlID="AllCustomersCheckBox" PropertyName="Checked" Name="listAll" Type="Boolean"></asp:ControlParameter>
                 </SelectParameters>
             </asp:ObjectDataSource>
-            <asp:LinkButton ID="SelectCustomer" runat="server" OnClick="SelectCustomer_Click" CssClass="btn btn-default">Select</asp:LinkButton>
-            <asp:LinkButton ID="CancelSelection" runat="server" OnClick="CancelSelection_Click" CssClass="btn btn-default" Visible="false">Cancel</asp:LinkButton>
+            <asp:LinkButton ID="SelectCustomer" runat="server" OnClick="SelectCustomer_Click" CssClass="btn btn-secondary">Select</asp:LinkButton>
+            <asp:LinkButton ID="CancelSelection" runat="server" OnClick="CancelSelection_Click" CssClass="btn btn-secondary" Visible="false">Cancel</asp:LinkButton>
             <asp:LinkButton ID="NewOrder" runat="server" OnClick="NewOrder_Click" CssClass="btn btn-primary" Visible="false">New Order</asp:LinkButton>
             <div>
                 <asp:CheckBox ID="AllCustomersCheckBox" runat="server" Checked="true" AutoPostBack="true" />
@@ -100,7 +100,7 @@
                     &nbsp;
                 </asp:LinkButton>
                 <asp:LinkButton ID="PlaceOrder" runat="server" CssClass="btn btn-success btn-sm" OnClick="PlaceOrder_Click">Place Order</asp:LinkButton>
-                <asp:LinkButton ID="BackToList" runat="server" CssClass="btn btn-default btn-sm" OnClick="BackToList_Click">Back to Order History</asp:LinkButton>
+                <asp:LinkButton ID="BackToList" runat="server" CssClass="btn btn-secondary btn-sm" OnClick="BackToList_Click">Back to Order History</asp:LinkButton>
             </h3>
             <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
             <table class="table table-condensed">

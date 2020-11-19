@@ -50,10 +50,10 @@
                             <asp:TextBox ID="Qty" runat="server" CssClass="form-control"
                                 Text="<%# BindItem.QtyPerUnit %>"></asp:TextBox>
                             <asp:LinkButton ID="Update" runat="server"
-                                 CssClass="btn btn-default" CommandName="Update"
+                                 CssClass="btn btn-secondary" CommandName="Update"
                                  Text="Update" />
                             <asp:LinkButton ID="Cancel" runat="server"
-                                 CssClass="btn btn-default" CommandName="Cancel"
+                                 CssClass="btn btn-secondary" CommandName="Cancel"
                                  Text="Cancel" />
                         </div>
                     </div>
@@ -90,10 +90,10 @@
                                 Text="<%# BindItem.QtyPerUnit %>"
                                 placeholder="Qty per Unit"></asp:TextBox>
                             <asp:LinkButton ID="Insert" runat="server"
-                                 CssClass="btn btn-default" CommandName="Insert"
+                                 CssClass="btn btn-secondary" CommandName="Insert"
                                  Text="Add New Product" />
                             <asp:LinkButton ID="Cancel" runat="server"
-                                 CssClass="btn btn-default" CommandName="Cancel"
+                                 CssClass="btn btn-secondary" CommandName="Cancel"
                                  Text="Clear" />
                         </div>
                     </div>
@@ -117,10 +117,10 @@
                                  Checked="<%# Item.IsDiscontinued %>"
                                  Enabled="false"/>
                             <asp:LinkButton ID="Discontinue" runat="server"
-                                 CssClass="btn btn-default"
+                                 CssClass="btn btn-secondary"
                                  Text="Discontinue" Visible="<%# !Item.IsDiscontinued %>" />
                             <asp:LinkButton ID="Edit" runat="server"
-                                 CssClass="btn btn-default" CommandName="Edit"
+                                 CssClass="btn btn-secondary" CommandName="Edit"
                                  Text="Edit" />
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                 InsertMethod="AddProductItem"
                 OldValuesParameterFormatString="original_{0}"
                 SelectMethod="FilterProducts"
-                TypeName="WestWindSystem.BLL.ProductManagementController"
+                TypeName="WestWindSystem.BLL.ProductCatalogController"
                 UpdateMethod="UpdateProductItem"
                 OnUpdated="CheckForExceptions"
                 OnDeleted="CheckForExceptions"
@@ -153,12 +153,12 @@
             <asp:ObjectDataSource ID="SupplierDataSource" runat="server"
                 OldValuesParameterFormatString="original_{0}"
                 SelectMethod="ListSuppliersNameAndId"
-                TypeName="WestWindSystem.BLL.ProductManagementController"></asp:ObjectDataSource>
+                TypeName="WestWindSystem.BLL.ProductCatalogController"></asp:ObjectDataSource>
 
             <asp:ObjectDataSource ID="CategoryDataSource" runat="server"
                 OldValuesParameterFormatString="original_{0}"
                 SelectMethod="ListCategoriesNameAndId"
-                TypeName="WestWindSystem.BLL.ProductManagementController"></asp:ObjectDataSource>
+                TypeName="WestWindSystem.BLL.ProductCatalogController"></asp:ObjectDataSource>
         </div>
     </div>
 </asp:Content>

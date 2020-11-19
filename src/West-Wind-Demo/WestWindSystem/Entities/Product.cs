@@ -26,7 +26,7 @@ namespace WestWindSystem.Entities
         public int CategoryID { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(20, MinimumLength = 2)]
         public string QuantityPerUnit { get; set; }
 
         public short? MinimumOrderQuantity { get; set; }

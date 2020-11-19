@@ -17,7 +17,7 @@
             <uc1:BetaRelease runat="server" ID="BetaRelease" CssClass="bg-info" />
             <p>The following ERD represents the entire database schema.</p>
             <a href="/Images/Diagrams-WestWindERD.png" data-toggle="lightbox" data-title="West Wind ERD">
-                <img src="/Images/Diagrams-WestWindERD.svg" class="img-responsive" />
+                <img src="/Images/Diagrams-WestWindERD.svg" class="img-fluid" />
             </a>
         </div>
         <div class="col-md-6">
@@ -31,7 +31,7 @@
             <p><span class="badge">Future</span> Suppliers can offer new items that we can consider adding to our product offerings.</p>
             <hr />
             <p>
-                <a class="btn btn-default" href="/About">Change your Login &raquo;</a>
+                <a class="btn btn-secondary" href="/About">Change your Login &raquo;</a>
             </p>
         </div>
     </div>

@@ -280,7 +280,7 @@ namespace WebApp.Sales {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::WebApp.UserControls.MessageUserControl MessageUserControl;
+        protected global::FreeCode.WebApp.UserControls.MessageUserControl MessageUserControl;
         
         /// <summary>
         /// EditOrderDate control.

@@ -258,3 +258,33 @@ AS
     END
 RETURN
 GO
+
+-- ??) Heres's a sample problem that uses @@ERROR. Create a stored procedure called RemoveJobPosition that takes in the name of the position and deletes it from the Position table. Ensure the supplied name is valid and that it exists. generate your own error message if attempted delete fails.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'RemoveJobPosition')
+    DROP PROCEDURE RemoveJobPosition
+GO
+CREATE PROCEDURE RemoveJobPosition
+    -- Parameters here
+    @Description varchar(50)
+AS
+    -- Body of procedure here
+    IF @Description IS NULL
+        RAISERROR('Job description is required', 16, 1)
+        ELSE IF NOT EXISTS (SELECT * FROM Position WHERE PositionDescription = @Description)
+        RAISERROR('The supplied job position does not exist', 16, 1)
+    ELSE
+    BEGIN
+        DELETE FROM [Position]
+        WHERE    PositionDescription = @Description
+        -- the above could fail due to FK constraints
+        IF @@ERROR <> 0 -- I have a non-zero error number
+        BEGIN 
+            DECLARE @Msg varchar(80)
+            SET @Msg = 'Cannot delete the position"' + @Description + '"'
+            RAISERROR(@Msg, 16, 1)
+        END
+    END
+RETURN
+GO
+SELECT * FROM [Position]
+EXEC RemoveJobPosition 'Dean'

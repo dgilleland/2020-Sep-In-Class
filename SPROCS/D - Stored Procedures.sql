@@ -6,6 +6,17 @@ USE [A01-School]
 GO
 
 /*
+
+|       | @@IDENTITY    | @@ROWCOUNT    | @@ERROR
+| SELECT|   no          |   yes         |   no
+| INSERT|   maybe       |   yes         |   yes
+| UPDATE|   no          |   yes         |   yes
+| DELETE|   no          |   yes         |   yes
+
+*/
+
+
+/*
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'SprocName')
     DROP PROCEDURE SprocName
 GO
@@ -23,7 +34,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROC
 GO
 CREATE PROCEDURE AddPosition
     -- Parameters here
-    @Description    varchar(50)
+    @Description    varchar(50) -- Max of 50 characters
 AS
     -- Body of procedure here
     IF @Description IS NULL
@@ -32,7 +43,7 @@ AS
     END   -- }
     ELSE
     BEGIN -- {
-        IF LEN(@Description) < 5
+        IF LEN(@Description) < 5 -- I didn't need to identify the max
         BEGIN -- {
             RAISERROR('Description must be between 5 and 50 characters', 16, 1)
         END   -- }
@@ -55,6 +66,10 @@ RETURN
 GO
 
 -- Let's test our AddPosition stored procedure
+SELECT * FROM [Position]
+INSERT INTO Position(PositionDescription) VALUES ('Substitute')
+SELECT @@IDENTITY AS 'PositionCode'
+SELECT * FROM [Position]
 
 EXEC AddPosition 'The Boss'
 EXEC AddPosition NULL -- This should result in an error being raised
@@ -62,9 +77,34 @@ EXEC AddPosition 'Me' -- This should result in an error being raised
 EXEC AddPosition 'The Boss' -- This should result in an error as well (a duplicate)
 -- This long string gets truncated at the parameter, because the parameter size is 50
 EXEC AddPosition 'The Boss of everything and everyone, everywhere and all the time, both past present and future, without any possible exception. Unless, of course, I''m not...'
+SELECT * FROM Position
+INSERT INTO Position(PositionDescription) VALUES (NULL)
+-- Did that failed insert affect the global variable?
+SELECT @@IDENTITY
+
 EXEC AddPosition 'The Janitor'
 SELECT * FROM Position
--- DELETE FROM Position WHERE PositionID = 12
+-- WTH??? - Why that happened?
+-- Any attempt to insert a row into a table with an Identity column
+-- will force the IDENTITY value for that table to increment
+-- whether or not the insert succeeds or fails. Why? It's because
+-- the IDENTITY constraint on the column is a guarantee of a unique
+-- value. While the IDENTITY value is automatically incremented on
+-- each INSERT attempt, the @@IDENTITY will only be changed if the
+-- INSERT is successful.
+INSERT INTO Position(PositionDescription) VALUES ('HR')
+SELECT @@IDENTITY
+SELECT * FROM Position
+
+-- Let's switch to trying to insert into the PaymentType table
+INSERT INTO PaymentType(PaymentTypeDescription) VALUES ('Gift Cards')
+SELECT @@IDENTITY
+SELECT * FROM PaymentType
+
+INSERT INTO Position(PositionDescription) VALUES ('This is a really long bit of text because I am doing all of this on the fly without any notes because I have taught a long time and thisis really too early to trythiis')
+SELECT @@IDENTITY
+
+
 GO
 
 ALTER PROCEDURE AddPosition
@@ -78,7 +118,7 @@ AS
     END   -- }
     ELSE
     BEGIN -- {
-        IF LEN(@Description) < 5 OR Len(@Description) > 50
+        IF LEN(@Description) < 5 -- OR Len(@Description) > 50
         BEGIN -- {
             RAISERROR('Description must be between 5 and 50 characters', 16, 1)
         END   -- }
@@ -123,12 +163,14 @@ AS
         FROM    Student S
             INNER JOIN Activity A ON A.StudentID = S.StudentID
         WHERE   A.ClubId = @ClubId
+        SELECT @@ROWCOUNT
     END
 RETURN
 GO
 
 -- Test the above sproc
 EXEC LookupClubMembers 'CHESS'
+SELECT @@ROWCOUNT
 EXEC LookupClubMembers 'CSS'
 EXEC LookupClubMembers 'Drop Out'
 EXEC LookupClubMembers 'NASA1'

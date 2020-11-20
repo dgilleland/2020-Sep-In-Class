@@ -212,15 +212,106 @@ EXEC RemoveClubMembership 'CSS' -- The second time this is run, there will be no
 -- 4) Create a stored procedure called OverActiveMembers that takes a single number: ClubCount. This procedure should return the names of all members that are active in as many or more clubs than the supplied club count.
 --    (p.s. - You might want to make sure to add more members to more clubs, seeing as tests for the last question might remove a lot of club members....)
 -- TODO: Student Answer Here
-
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'OverActiveMembers')
+    DROP PROCEDURE OverActiveMembers
+GO
+CREATE PROCEDURE OverActiveMembers
+    @ClubCount  int
+AS
+    IF @ClubCount IS NULL OR @ClubCount <= 0
+        RAISERROR('ClubCount is required and must be positive', 16, 1)
+    ELSE
+        SELECT  FirstName, LastName
+        FROM    Student
+        WHERE   StudentID IN
+                (SELECT StudentId FROM Activity
+                 GROUP BY StudentId
+                 HAVING COUNT(StudentID) >= @ClubCount)
+RETURN
+GO
+-- Testing
+SELECT * FROM Activity ORDER BY StudentID
+SELECT StudentID, COUNT(ClubID) FROM Activity GROUP BY StudentID
+EXEC OverActiveMembers 2
+EXEC OverActiveMembers 3
+EXEC OverActiveMembers 1
+EXEC OverActiveMembers 0
+EXEC OverActiveMembers -4
+EXEC OverActiveMembers NULL
 
 
 -- 5) Create a stored procedure called ListStudentsWithoutClubs that lists the full names of all students who are not active in a club.
 -- TODO: Student Answer Here
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'ListStudentsWithoutClubs')
+    DROP PROCEDURE ListStudentsWithoutClubs
+GO
+CREATE PROCEDURE ListStudentsWithoutClubs
+AS
+    SELECT  FirstName + ' ' + LastName AS 'FullName'
+    FROM    Student
+    WHERE   StudentID NOT IN (SELECT DISTINCT StudentID FROM Activity)
+RETURN
+GO
+EXEC ListStudentsWithoutClubs
 
+SELECT  FirstName + ' ' + LastName AS 'FullName', A.StudentID, ClubId
+FROM    Student AS S 
+    LEFT OUTER JOIN Activity AS A ON S.StudentID = A.StudentID
+WHERE   A.StudentID IS NULL
 
 
 -- 6) Create a stored procedure called LookupStudent that accepts a partial student last name and returns a list of all students whose last name includes the partial last name. Return the student first and last name as well as their ID.
 -- TODO: Student Answer Here
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'LookupStudent')
+    DROP PROCEDURE LookupStudent
+GO
+CREATE PROCEDURE LookupStudent
+    @PartialLastName    varchar(35) -- The column size for LastName
+AS
+    IF @PartialLastName IS NULL OR LEN(@PartialLastName) = 0
+        RAISERROR('Partial last name is required an must be at least a single character', 16, 1)
+    ELSE
+        SELECT  FirstName, LastName, StudentID
+        FROM    Student
+        WHERE   LastName LIKE '%' + @PartialLastName + '%'
+RETURN
+GO
+EXEC LookupStudent 'oo'
+EXEC LookupStudent ''
+EXEC LookupStudent NULL
 
 
+-- ??) Here's a sample problem that uses @@ERROR. Create a stored procedure called RemoveJobPosition that thakes in the name of the position and deletes it from the Position table. Ensure the supplied name is valid and that it exists. Generate your own error message if the attempted delete fails.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'RemoveJobPosition')
+    DROP PROCEDURE RemoveJobPosition
+GO
+CREATE PROCEDURE RemoveJobPosition
+    -- Parameters here
+    @Description    varchar(50)
+AS
+    IF @Description IS NULL
+        RAISERROR('Job description is required', 16, 1)
+    ELSE IF NOT EXISTS (SELECT * FROM Position WHERE PositionDescription = @Description)
+        RAISERROR('The supplied job position does not exist', 16, 1)
+    ELSE
+    BEGIN
+        DELETE FROM [Position]
+        WHERE PositionDescription = @Description
+        -- The above could fail due to the FK constraints
+        IF @@ERROR <> 0 -- I have a non-zero error number
+        BEGIN
+            DECLARE @Msg varchar(80)
+            SET @Msg = 'Cannot delete the position "' + @Description + '"'
+            RAISERROR(@Msg, 16, 1)
+        END
+    END
+RETURN
+GO
+SELECT * FROM [Position]
+EXEC RemoveJobPosition 'Dean'
+
+-- The following practice problems use global variables
+
+-- 7) Create a stored procedure called AddPaymentType that takes in a description/name for the payment type and adds it to the PaymentType table. Be sure to prevent any duplicate payment types and also make sure the name of the pament type is at least 4 characters long. Return the PaymentTypeID that was generated for the inserted row.
+
+-- 8) Create a stored procedure called RemovePaymentType that takes in the name of the payment type and deletes it from the PaymentType table. Ensure the supplied name is valid and that it exists. Generate your own error message if the attempted delete fails.

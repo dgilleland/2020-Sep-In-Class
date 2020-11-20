@@ -206,7 +206,7 @@ namespace WestWindSystem.BLL
         #endregion
 
         #region Command Responsibility
-        public void Save(EditCustomerOrder order)
+        public void Save(EditCustomerOrder order) // General purpose, for both new and existing orders
         {
             // Always ensure you have been given data to work with
             if (order == null)
@@ -219,9 +219,9 @@ namespace WestWindSystem.BLL
             // Decide whether to add new or update
             //  NOTE: Notice that no db activity is occurring yet.
             if (order.OrderId == 0)
-                AddPendingOrder(order);
+                AddPendingOrder(order); // Save/Add this as a new order
             else
-                UpdatePendingOrder(order);
+                UpdatePendingOrder(order); // Save/Update this as an existing order
         }
 
         /// <summary>
@@ -232,7 +232,9 @@ namespace WestWindSystem.BLL
         {
             using (var context = new WestWindContext())
             {
+                // Start with a "blank" Order instance
                 var orderInProcess = context.Orders.Add(new Order());
+
                 // Make the orderInProcess match the customer order as given...
                 // A) The general order information
                 orderInProcess.CustomerID = order.CustomerId;
@@ -250,6 +252,7 @@ namespace WestWindSystem.BLL
                         UnitPrice = item.UnitPrice,
                         Discount = item.DiscountPercent
                     };
+                    // Each OrderDetail is being added to the orderInProcess directly
                     orderInProcess.OrderDetails.Add(newItem);
                 }
 

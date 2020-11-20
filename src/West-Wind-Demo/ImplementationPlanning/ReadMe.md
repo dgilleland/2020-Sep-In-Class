@@ -287,6 +287,10 @@ Saving and placing customer orders is something that has to be done as part of a
 
 ![](CustomerOrders/images/Northwind-CustomerSales-Save.png)
 
+The data that is captured from the form that is needed for updating the database is represented by this portion of the ERD.
+
+![](CustomerOrders/images/Save-Customer-Order.png)
+
 ----
 
 ## Planning Your Implementation

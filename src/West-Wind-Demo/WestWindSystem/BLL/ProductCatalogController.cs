@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FreeCode.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity.Validation;
@@ -98,41 +99,46 @@ namespace WestWindSystem.BLL
         [DataObjectMethod(DataObjectMethodType.Insert)]
         public void AddProductItem(ProductInfo info)
         {
-            // Step 0: Validation
-            List<Exception> errors = new List<Exception>();
+            #region Step 0: Validation
+            List<Exception> errors = new List<Exception>(); // Start with an empty list of problems
 
             if (info == null)
                 errors.Add(new ArgumentNullException(nameof(info), $"No {nameof(ProductInfo)} was supplied for adding a new product to the catalog."));
             else // At least I have a ProductInfo object, so I can examine it for problems
             {
                 if (string.IsNullOrWhiteSpace(info.Name))
-                    errors.Add(new FreeCode.Exceptions.BusinessRuleException<string>("A product name is required", nameof(info.Name), info.Name));
+                    errors.Add(new BusinessRuleException<string>("A product name is required", nameof(info.Name), info.Name));
+                    //                                  \ type / \   message                 / \ variable name /  \ value /
                 if (info.Price <= 0)
                     errors.Add(new ArgumentOutOfRangeException(nameof(info.Price), $"The supplied price of {info.Price} must be greater than zero."));
                 if (string.IsNullOrWhiteSpace(info.QtyPerUnit))
-                    errors.Add(new FreeCode.Exceptions.BusinessRuleException<string>("A Qty/Unit is required (e.g.: 'Ea' or 'Case')", nameof(info.QtyPerUnit), info.QtyPerUnit));
+                    errors.Add(new BusinessRuleException<string>("A Qty/Unit is required (e.g.: 'Ea' or 'Case')", nameof(info.QtyPerUnit), info.QtyPerUnit));
                 if (info.CategoryId == 0)
-                    errors.Add(new FreeCode.Exceptions.BusinessRuleException<int>("A valid category code is required", nameof(info.CategoryId), info.CategoryId));
+                    errors.Add(new BusinessRuleException<int>("A valid category code is required", nameof(info.CategoryId), info.CategoryId));
                 if (info.SupplierId == 0)
-                    errors.Add(new FreeCode.Exceptions.BusinessRuleException<int>("A valid category code is required", nameof(info.SupplierId), info.SupplierId));
+                    errors.Add(new BusinessRuleException<int>("A valid category code is required", nameof(info.SupplierId), info.SupplierId));
             }
             if (errors.Any())
-                throw new FreeCode.Exceptions.BusinessRuleCollectionException("Unable to add product to inventory catalog.", errors);
+                throw new BusinessRuleCollectionException("Unable to add product to inventory catalog.", errors);
+            #endregion
 
-            // Step 1: Process the request by adding a new Product to the database
+            #region Step 1: Process the request by adding a new Product to the database
             using (var context = new WestWindContext())
             {
-                var newItem = new Product
+                var newItem = new Product // Entity class
                 {
                     ProductName = info.Name?.Trim(), // Null Conditional Operator  ?.
-                    QuantityPerUnit = info.QtyPerUnit?.Trim(),
+                    QuantityPerUnit = info.QtyPerUnit.Trim(),
                     UnitPrice = info.Price,
                     CategoryID = info.CategoryId,
                     SupplierID = info.SupplierId
                 };
-                context.Products.Add(newItem);
+                context.Products.Add(newItem); // Add it to my database context instance
+                // So far, nothing is storesd in the database.
+                // Things will only be saved into the database when the .SaveChanges() method is called
                 context.SaveChanges(); // This will cause all the validation attributes to be checked
             }
+            #endregion
         }
 
         [DataObjectMethod(DataObjectMethodType.Update)]

@@ -42,16 +42,16 @@ AS
         --PRINT('Update Registration to set WithdrawYN to Y')
         UPDATE Registration
            SET WithdrawYN = 'Y'
-        WHERE  StudentID = @StudentID
-          AND  CourseId = @LeaveCourseID
-          AND  Semester = @Semester
-          AND  (WithdrawYN = 'N' OR WithdrawYN IS NULL)
+        WHERE  StudentID = @StudentID     -- for the correct student
+          AND  CourseId = @LeaveCourseID  -- and the correct course
+          AND  Semester = @Semester       -- and the correct semester
+          AND  (WithdrawYN = 'N' OR WithdrawYN IS NULL) -- and they are not already withdrawn
         --         Check for error/rowcount
-        IF @@ERROR > 0 OR @@ROWCOUNT = 0
+        IF @@ERROR <> 0 OR @@ROWCOUNT = 0
         BEGIN
             --PRINT('RAISERROR + ROLLBACK')
             RAISERROR('Unable to withdraw student', 16, 1)
-            ROLLBACK TRANSACTION -- reverses the "temporary" changes to the database
+            ROLLBACK TRANSACTION -- reverses the "temporary" changes to the database and closes the transaction
         END
         ELSE
         BEGIN
@@ -62,7 +62,7 @@ AS
             --         Check for error/rowcount
             -- Since @@ERROR and @@ROWCOUNT are global variables,
             -- we have to check them immediately after our insert/update/delete
-            IF @@ERROR > 0 OR @@ROWCOUNT = 0 -- Do our check for errors after each I/U/D
+            IF @@ERROR <> 0 OR @@ROWCOUNT = 0 -- Do our check for errors after each I/U/D
             BEGIN
                 --PRINT('RAISERROR + ROLLBACK')
                 RAISERROR('Unable to transfer student to new course', 16, 1)
@@ -82,7 +82,56 @@ GO
 -- 2. Create a stored procedure called DissolveClub that will accept a club id as its parameter. Ensure that the club exists before attempting to dissolve the club. You are to dissolve the club by first removing all the members of the club and then removing the club itself.
 --    - Delete of rows in the Activity table
 --    - Delete of rows in the Club table
-
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'DissolveClub')
+    DROP PROCEDURE DissolveClub
+GO
+CREATE PROCEDURE DissolveClub
+    -- Parameters here
+    @ClubId     varchar(10)
+AS
+    -- Validatation:
+    -- A) Make sure the ClubId is not null
+    IF @ClubId IS NULL
+    BEGIN
+        RAISERROR('ClubId is required', 16, 1)
+    END
+    ELSE
+    BEGIN
+        -- B) Make sure the Club exists
+        IF NOT EXISTS(SELECT ClubId FROM Club WHERE ClubId = @ClubId)
+        BEGIN
+            RAISERROR('That club does not exist', 16, 1)
+        END
+        ELSE
+        BEGIN
+            -- Transaction:
+            BEGIN TRANSACTION -- Starts the transaction - everything is temporary
+            -- 1) Remove members of the club (from Activity)
+            DELETE FROM Activity WHERE ClubId = @ClubId
+            -- Remember to do a check of your global variables to see if there was a problem
+            IF @@ERROR <> 0 -- then there's a problem with the delete, no need to check @@ROWCOUNT
+            BEGIN
+                ROLLBACK TRANSACTION -- Ending/undoing any temporary DML statements
+                RAISERROR('Unable to remove members from the club', 16, 1)
+            END
+            ELSE
+            BEGIN
+                -- 2) Remove the club
+                DELETE FROM Club WHERE ClubId = @ClubId
+                IF @@ERROR <> 0 OR @@ROWCOUNT = 0 -- there's a problem
+                BEGIN
+                    ROLLBACK TRANSACTION
+                    RAISERROR('Unable to delete the club', 16, 1)
+                END
+                ELSE
+                BEGIN
+                    COMMIT TRANSACTION -- Finalize all the temporary DML statement
+                END
+            END
+        END
+    END
+RETURN
+GO
 
 -- 3. Add a stored procedure called AdjustMarks that takes in a course ID. The procedure should adjust the marks of all students for that course by increasing the mark by 10%. Be sure that nobody gets a mark over 100%.
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'AdjustMarks')
@@ -102,11 +151,12 @@ AS
     BEGIN
         BEGIN TRANSACTION -- Don't forget this....
         -- Step 1) Deal with those who "could" get 100%+ by just giving them 100%
-        PRINT('Step 1 - Update Registration...')
+        -- You can use PRINT() statements temporarily as a way to see what stage/step is run when you test the SPROC
+        PRINT('Step 1 - Update Registration...') -- Will output in the messages window
         UPDATE Registration
-           SET Mark = 100
+           SET Mark = 100            -- the max mark possible
         WHERE  CourseId = @CourseID
-          AND  Mark * 1.1 > 100
+          AND  Mark * 1.1 > 100      -- whereever adding 10% would give more than 100% of a final mark
         IF @@ERROR > 0 -- Errors only - it's ok to have zero rows affected
         BEGIN
             PRINT('RAISERROR + ROLLBACK')
@@ -171,7 +221,7 @@ AS
         ELSE
         BEGIN
             BEGIN TRANSACTION
-
+            -- 1st DML statement
             INSERT INTO Registration (StudentID, CourseId, Semester)
             VALUES (@StudentID, @CourseID, @Semester)
 
@@ -182,6 +232,7 @@ AS
             END
             ELSE
             BEGIN
+                -- 2nd DML statement
                 UPDATE  Student
                    SET  BalanceOwing = BalanceOwing + @CourseCost
                 WHERE   StudentID = @StudentID

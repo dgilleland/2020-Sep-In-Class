@@ -42,16 +42,16 @@ AS
         --PRINT('Update Registration to set WithdrawYN to Y')
         UPDATE Registration
            SET WithdrawYN = 'Y'
-        WHERE  StudentID = @StudentID
-          AND  CourseId = @LeaveCourseID
-          AND  Semester = @Semester
-          AND  (WithdrawYN = 'N' OR WithdrawYN IS NULL)
+        WHERE  StudentID = @StudentID       -- for the supplied
+          AND  CourseId = @LeaveCourseID    -- in the specific course
+          AND  Semester = @Semester         -- during a specific semester
+          AND  (WithdrawYN = 'N' OR WithdrawYN IS NULL)     -- make sure that they haven't already been withdrawn
         --         Check for error/rowcount
-        IF @@ERROR > 0 OR @@ROWCOUNT = 0
+        IF @@ERROR > 0 OR @@ROWCOUNT = 0    -- I want to make sure the student was removed - 1 row should be affected
         BEGIN
             --PRINT('RAISERROR + ROLLBACK')
             RAISERROR('Unable to withdraw student', 16, 1)
-            ROLLBACK TRANSACTION -- reverses the "temporary" changes to the database
+            ROLLBACK TRANSACTION -- reverses the "temporary" changes to the database AND it closes the transaction
         END
         ELSE
         BEGIN
@@ -80,9 +80,46 @@ GO
 
 
 -- 2. Create a stored procedure called DissolveClub that will accept a club id as its parameter. Ensure that the club exists before attempting to dissolve the club. You are to dissolve the club by first removing all the members of the club and then removing the club itself.
---    - Delete of rows in the Activity table
---    - Delete of rows in the Club table
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'DissolveClub')
+    DROP PROCEDURE DissolveClub
+GO
+CREATE PROCEDURE DissolveClub
+    @ClubID varchar(10)
+    AS
+        IF @ClubID IS NULL
+    BEGIN
+    IF NOT EXISTS(SELECT ClubID FROM Club WHERE ClubID = @ClubID)
+    BEGIN
+        RAISERROR('ClubID is required', 16, 1)
+    END
+    ELSE
+    BEGIN
+        -- Begin Transaction
+        BEGIN TRANSACTION
+            DELETE FROM Activity
+            WHERE ClubID = @ClubID
+        IF @@ERROR <> 0    -- I want to make sure the student was removed - 1 row should be affected
+        BEGIN
+            --PRINT('RAISERROR + ROLLBACK')
+            ROLLBACK TRANSACTION -- reverses the "temporary" changes to the database AND it closes the transaction
+            RAISERROR('Unable to withdraw student', 16, 1)            
+        END
+        ELSE
+            DELETE FROM Club WHERE ClubID = @ClubID
+            IF @@ERROR <> 0 OR @@ROWCOUNT = 0
+            BEGIN
+                ROLLBACK TRANSACTION
+                RAISERROR('Unable to delete the club', 16, 1)
+        END
+        ELSE
+        BEGIN
+            COMMIT TRANSACTION
+        END
+    END
+END
+RETURN
+GO
 
 -- 3. Add a stored procedure called AdjustMarks that takes in a course ID. The procedure should adjust the marks of all students for that course by increasing the mark by 10%. Be sure that nobody gets a mark over 100%.
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'AdjustMarks')
@@ -459,6 +496,7 @@ AS
 RETURN
 GO
 
+-- \/ for practice \/
 -- 9. Create a stored procedure called ArchivePayments. This stored procedure must transfer all payment records to the StudentPaymentArchive table. After archiving, delete the payment records.
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'StudentPaymentArchive')
     DROP TABLE StudentPaymentArchive

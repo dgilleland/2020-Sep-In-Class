@@ -17,7 +17,7 @@ namespace WebApp.Models
     {
         #region My Custom Properties
         // Adding these properties makes them my personal custom columns in the Db table AspNetUsers
-        public int? VoterId { get; set; }
+        public int? VoterId { get; set; } // this is a nullable int, because my WebMaster will not have a VoterId
         public string RegisteredAs { get; set; }
         #endregion
 

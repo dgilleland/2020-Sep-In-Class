@@ -63,6 +63,7 @@ namespace WebApp.Admin.Security
                     RegisteredAs = "Democrat"
                 }, newUserPassword);
                 if (result.Succeeded)
+                    //userManager.AddToRole(userManager.FindByName($"{person.FirstName}.{person.LastName}").Id, DefaultRoles.DefaultRole);
                     userManager.AddToRole(userManager.FindByEmail(person.Email).Id, DefaultRoles.DefaultRole);
             }
             #endregion

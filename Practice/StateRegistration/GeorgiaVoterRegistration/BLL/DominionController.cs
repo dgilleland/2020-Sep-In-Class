@@ -31,7 +31,7 @@ namespace GeorgiaVoterRegistration.BLL
                 .RuleFor(o => o.Email, (f, u) => f.Person.Email)
                 .RuleFor(o => o.Avatar, f => f.Person.Avatar)
                 .RuleFor(o => o.DateOfBirth, f => f.Date.Between(DateTime.Now.AddYears(-60), DateTime.Now.AddYears(-18)));
-            var demo = faker.Generate(2000); // demo-crat
+            var demo = faker.Generate(20); // demo-crat
             using(var context = new ElectionContext())
             {
                 foreach(var person in demo)

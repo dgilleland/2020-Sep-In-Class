@@ -43,7 +43,7 @@ CREATE PROCEDURE ListStudentMarksByRange
 AS
     -- Body of procedure here
     -- Should put some validation here.....
-      SELECT  DISTINCT -- The DISTINCT keyword will remove duplate rows from the results
+      SELECT  DISTINCT -- The DISTINCT keyword will remove duplicate rows from the results
         FirstName + ' ' + LastName AS 'Staff Full Name',
         CourseId
       FROM    Staff S

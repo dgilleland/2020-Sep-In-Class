@@ -4,10 +4,13 @@
 
     <div class="jumbotron">
         <h1>Security Demo</h1>
+        <div>
+            <asp:LinkButton ID="LoadVotes" runat="server" OnClick="LoadVotes_Click">Load Next Voting Machine &rarr;</asp:LinkButton>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4">
             <asp:GridView ID="VoterGridView" runat="server" ItemType="GeorgiaVoterRegistration.Entities.Voter" AutoGenerateColumns="False" DataSourceID="VoterDataSource">
                 <EmptyDataTemplate>
                     No Voters to Show
@@ -33,6 +36,37 @@
             </asp:GridView>
             <asp:ObjectDataSource ID="VoterDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="ListAllVoters" TypeName="GeorgiaVoterRegistration.BLL.DominionController"></asp:ObjectDataSource>
         </div>
+        <div class="col-md-4">
+            <h2>Voted Democrat</h2>
+            <asp:GridView ID="DemocratGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-hover" OnRowCommand="Adjust_RowCommand">
+                <Columns>
+                    <asp:BoundField DataField="VoterId" HeaderText="Ballot Id" />
+                    <asp:BoundField DataField="ObfuscatedName" HeaderText="Voter Name" />
+                    <asp:BoundField DataField="PresidentialTicket" HeaderText="Cast" />
+                    <asp:ButtonField CommandName="Recount" Text="Cure Ballot" />
+                </Columns>
+            </asp:GridView>
+        </div>
+        <div class="col-md-4">
+            <h2>Voted Republican</h2>
+            <asp:GridView ID="RepublicanGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-hover">
+                <Columns>
+                    <asp:ButtonField CommandName="Cure" Text="Cure Ballot" />
+                    <asp:BoundField DataField="VoterId" HeaderText="Ballot Id" />
+                    <asp:BoundField DataField="ObfuscatedName" HeaderText="Voter Name" />
+                    <asp:BoundField DataField="PresidentialTicket" HeaderText="Cast" />
+                </Columns>
+            </asp:GridView>
+        </div>
     </div>
-
+    <script>
+        (function () {
+            var allimgs = document.images;
+            for (var i = 0; i < allimgs.length; i++) {
+                allimgs[i].onerror = function () {
+                    this.style.visibility = "hidden"; // Other elements aren't affected. 
+                }
+            }
+        })();
+    </script>
 </asp:Content>

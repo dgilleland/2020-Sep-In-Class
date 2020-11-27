@@ -61,6 +61,7 @@
     <Compile Include="DAL\ElectionContext.cs" />
     <Compile Include="Entities\Voter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Ballot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

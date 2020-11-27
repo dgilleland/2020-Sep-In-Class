@@ -20,5 +20,38 @@ namespace WebApp
             var controller = new DominionController();
             controller.GenerateData();
         }
+
+        protected void LoadVotes_Click(object sender, EventArgs e)
+        {
+            var controller = new DominionController();
+            var votes = controller.LoadTally();
+            DemocratGridView.DataSource = votes.Democrat;
+            DemocratGridView.DataBind();
+            RepublicanGridView.DataSource = votes.Republican;
+            RepublicanGridView.DataBind();
+        }
+
+        protected void Adjust_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int index = int.Parse(e.CommandArgument.ToString());
+            switch(e.CommandName)
+            {
+                case "Cure":
+                    CureVote(RepublicanGridView.Rows[index]);
+                    break;
+                case "Recount":
+                    RecountVote(DemocratGridView.Rows[index]);
+                    break;
+            }
+        }
+
+        void CureVote(GridViewRow gridViewRow)
+        {
+            throw new NotImplementedException();
+        }
+        void RecountVote(GridViewRow gridViewRow)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

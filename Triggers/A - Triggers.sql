@@ -48,8 +48,10 @@ FOR Insert, Update -- Choose only the DML statement(s) that apply
 AS
     -- Body of Trigger
     IF @@ROWCOUNT > 0 -- It's a good idea to see if any rows were affected first
-       AND
-       EXISTS (SELECT StudentID FROM Activity
+       AND -- the next statement is our business rule
+       EXISTS (SELECT A.StudentID FROM Activity AS A
+       --next line ensure we are only dealing with students affected by the insert/update
+                INNER JOIN inserted AS i ON A.StudentID = i.StudentID
                GROUP BY StudentID HAVING COUNT(StudentID) > 3)
     BEGIN
         -- State why I'm going to abort the changes

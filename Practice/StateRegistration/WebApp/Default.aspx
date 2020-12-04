@@ -40,21 +40,46 @@
             <h2>Voted Democrat</h2>
             <asp:GridView ID="DemocratGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-hover" OnRowCommand="Adjust_RowCommand">
                 <Columns>
-                    <asp:BoundField DataField="VoterId" HeaderText="Ballot Id" />
-                    <asp:BoundField DataField="ObfuscatedName" HeaderText="Voter Name" />
-                    <asp:BoundField DataField="PresidentialTicket" HeaderText="Cast" />
+                    <asp:TemplateField HeaderText="Ballot Id">
+                        <ItemTemplate>
+                            <asp:Label runat="server" Text='<%# Bind("VoterId") %>' ID="Id"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Voter Name">
+                        <ItemTemplate>
+                            <asp:Label runat="server" Text='<%# Bind("ObfuscatedName") %>' ID="VoterName"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Cast">
+                        <ItemTemplate>
+                            <asp:Label runat="server" Text='<%# Bind("PresidentialTicket") %>' ID="Vote"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                     <asp:ButtonField CommandName="Recount" Text="Cure Ballot" />
                 </Columns>
             </asp:GridView>
         </div>
         <div class="col-md-4">
             <h2>Voted Republican</h2>
-            <asp:GridView ID="RepublicanGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-hover">
+            <asp:GridView ID="RepublicanGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-hover" OnRowCommand="Adjust_RowCommand">
                 <Columns>
                     <asp:ButtonField CommandName="Cure" Text="Cure Ballot" />
-                    <asp:BoundField DataField="VoterId" HeaderText="Ballot Id" />
-                    <asp:BoundField DataField="ObfuscatedName" HeaderText="Voter Name" />
-                    <asp:BoundField DataField="PresidentialTicket" HeaderText="Cast" />
+                    <asp:TemplateField HeaderText="Ballot Id">
+                        <ItemTemplate>
+                            <asp:Label runat="server" Text='<%# Bind("VoterId") %>' ID="Id"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Voter Name">
+                        <ItemTemplate>
+                            <asp:Label runat="server" Text='<%# Bind("ObfuscatedName") %>' ID="VoterName"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Cast">
+                        <ItemTemplate>
+                            <asp:Label runat="server" Text='<%# Bind("PresidentialTicket") %>' ID="Vote"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </div>
